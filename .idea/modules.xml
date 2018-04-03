@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LearnAndroid.iml" filepath="$PROJECT_DIR$/LearnAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/videoLibrary/videoLibrary.iml" filepath="$PROJECT_DIR$/videoLibrary/videoLibrary.iml" />
+      <module fileurl="file://D:\workspace\LearnAndroid\videoLibrary\videoLibrary.iml" filepath="D:\workspace\LearnAndroid\videoLibrary\videoLibrary.iml" />
+    </modules>
+  </component>
+</project>
