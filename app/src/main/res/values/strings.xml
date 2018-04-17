@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LearnAndroid</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Knowledge</string>
+    <string name="logout">Logout</string>
+    <string name="my_like">My favorite</string>
+    <string name="my_about">About us</string>
 </resources>
