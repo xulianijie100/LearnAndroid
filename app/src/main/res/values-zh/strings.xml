@@ -5,8 +5,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- home -->
-    <string name="title_home">首页</string>
-    <string name="title_dashboard">知识体系</string>
+    <string name="title_home">主页</string>
+    <string name="title_dashboard">知识</string>
     <string name="hot_title">Hot</string>
     <!--no data-->
     <string name="no_data">这里空空的…</string>
