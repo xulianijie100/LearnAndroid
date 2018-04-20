@@ -17,7 +17,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 当前Fragment父视图
      */
-    private View mView;
+    public View mView;
 
     /**
      * 获取当前Fragment视图ID

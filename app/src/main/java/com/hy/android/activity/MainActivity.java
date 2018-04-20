@@ -65,14 +65,14 @@ public class MainActivity extends BaseActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         if (lastShowFragment != 0) {
-                            switchFrament(lastShowFragment, 0);
+                            switchFragment(lastShowFragment, 0);
                             lastShowFragment = 0;
                             toolbar.setTitle(R.string.title_home);
                         }
                         return true;
                     case R.id.navigation_type:
                         if (lastShowFragment != 1) {
-                            switchFrament(lastShowFragment, 1);
+                            switchFragment(lastShowFragment, 1);
                             lastShowFragment = 1;
                             toolbar.setTitle(R.string.title_dashboard);
                         }
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void switchFrament(int lastIndex, int index) {
+    public void switchFragment(int lastIndex, int index) {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
