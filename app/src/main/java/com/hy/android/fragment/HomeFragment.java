@@ -1,26 +1,25 @@
 package com.hy.android.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 
 import com.hy.android.Base.BaseFragment;
 import com.hy.android.R;
-import com.hy.android.adapter.BannerAdapter;
 import com.hy.android.adapter.HomeAdapter;
 import com.hy.android.bean.BannerData;
 import com.hy.android.bean.BaseResponse;
 import com.hy.android.bean.HomeData;
 import com.hy.android.net.RetrofitHelper;
-import com.hy.android.view.HorizontalRecyclerView;
+import com.hy.android.utils.GlideImageLoader;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +38,10 @@ public class HomeFragment extends BaseFragment {
     private static final String TAG = "HomeFragment";
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private HorizontalRecyclerView bannerRecyclerView;
-    private BannerAdapter bannerAdapter;
     private HomeAdapter mAdapter;
     private List<HomeData> homeDatas;
     private List<BannerData> bannerDatas;
-    private int currentIndex = 0;
+    private Banner mBanner;
 
     @Override
     protected int getLayoutId() {
@@ -62,19 +59,15 @@ public class HomeFragment extends BaseFragment {
         bannerDatas = new ArrayList<>();
 
         swipeRefreshLayout = mView.findViewById(R.id.swipeRefreshLayout);
-
         //banner
-        bannerRecyclerView = (HorizontalRecyclerView) LayoutInflater.from(getActivity()).inflate(R.layout.home_banner, null);
-        bannerAdapter = new BannerAdapter(getActivity(),R.layout.banner_item, bannerDatas);
-        bannerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        new PagerSnapHelper().attachToRecyclerView(mRecyclerView); //一次只能滑一页，而且居中显示。
-        bannerRecyclerView.requestDisallowInterceptTouchEvent(true);
-        bannerRecyclerView.setAdapter(bannerAdapter);
+        LinearLayout mHeaderGroup = ((LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.home_banner, null));
+        mBanner = mHeaderGroup.findViewById(R.id.head_banner);
+        mHeaderGroup.removeView(mBanner);
         //list
         mRecyclerView = mView.findViewById(R.id.recyclerView);
         mAdapter = new HomeAdapter(R.layout.home_list_item, homeDatas);
-        mAdapter.addHeaderView(bannerRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter.addHeaderView(mBanner);
         mRecyclerView.setAdapter(mAdapter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -82,6 +75,7 @@ public class HomeFragment extends BaseFragment {
                 refreshData();
             }
         });
+        getBanner();
     }
 
     @Override
@@ -93,8 +87,6 @@ public class HomeFragment extends BaseFragment {
     private void refreshData() {
         swipeRefreshLayout.setRefreshing(true);
         //mAdapter.setEnableLoadMore(false);
-        setPlaying(false);
-        getBanner();
         getHomeList();
     }
 
@@ -105,9 +97,7 @@ public class HomeFragment extends BaseFragment {
                 .subscribe(new Observer<BaseResponse<List<BannerData>>>() {
 
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
+                    public void onSubscribe(Disposable d) {}
 
                     @Override
                     public void onNext(BaseResponse<List<BannerData>> response) {
@@ -115,7 +105,6 @@ public class HomeFragment extends BaseFragment {
                             bannerDatas.clear();
                             bannerDatas.addAll(response.getData());
                         }
-                        Log.e(TAG, "onNext: "+bannerDatas.size());
                     }
 
                     @Override
@@ -125,9 +114,7 @@ public class HomeFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        bannerAdapter.notifyDataSetChanged();
-                        setPlaying(true);
+                        showBannerData(bannerDatas);
                     }
                 });
     }
@@ -136,25 +123,48 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            bannerRecyclerView.smoothScrollToPosition(++currentIndex);
-            handler.sendEmptyMessageDelayed(0, 3000);
-        }
-    };
+    public void showBannerData(List<BannerData> bannerDataList) {
 
-    public void setPlaying(boolean playing) {
-        if (playing && bannerAdapter.getItemCount() > 2) {
-            handler.sendEmptyMessageDelayed(0, 3000);
-        } else if (!playing) {
-            handler.removeCallbacksAndMessages(null);
+        List<String> bannerImageList = new ArrayList<>();
+        List<String> mBannerTitleList = new ArrayList<>();
+        for (BannerData data : bannerDataList) {
+            bannerImageList.add(data.imagePath);
+            mBannerTitleList.add(data.title);
+        }
+        //设置banner样式
+        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
+        //设置图片加载器
+        mBanner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        mBanner.setImages(bannerImageList);
+        //设置banner动画效果
+        mBanner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+        mBanner.setBannerTitles(mBannerTitleList);
+        //设置自动轮播，默认为true
+        mBanner.isAutoPlay(true);
+        //设置轮播时间
+        mBanner.setDelayTime(bannerDataList.size() * 400);
+        //设置指示器位置（当banner模式中有指示器时）
+        mBanner.setIndicatorGravity(BannerConfig.CENTER);
+
+        //banner设置方法全部调用完毕时最后调用
+        mBanner.start();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBanner != null) {
+            mBanner.startAutoPlay();
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+    public void onStop() {
+        super.onStop();
+        if (mBanner != null) {
+            mBanner.stopAutoPlay();
+        }
     }
 }

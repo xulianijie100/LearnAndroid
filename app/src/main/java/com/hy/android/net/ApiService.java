@@ -24,4 +24,12 @@ public interface ApiService {
      */
     @GET("banner/json")
     Observable<BaseResponse<List<BannerData>>> getBannerData();
+
+
+    /**
+     * http://www.wanandroid.com/article/list/0/json
+     * @return 首页数据
+     */
+    @GET("/article/list/{page}/json")
+    Observable<BaseResponse<List<BannerData>>> getHomeList();
 }
