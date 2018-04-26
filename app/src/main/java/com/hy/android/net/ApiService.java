@@ -2,11 +2,14 @@ package com.hy.android.net;
 
 import com.hy.android.bean.BannerData;
 import com.hy.android.bean.BaseResponse;
+import com.hy.android.bean.HomeDataList;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Administrator on 2018/4/17.
@@ -31,5 +34,5 @@ public interface ApiService {
      * @return 首页数据
      */
     @GET("/article/list/{page}/json")
-    Observable<BaseResponse<List<BannerData>>> getHomeList();
+    Observable<BaseResponse<HomeDataList>> getHomeList(@Path("page") int page);
 }

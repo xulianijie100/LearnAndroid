@@ -10,16 +10,21 @@ import android.view.View;
 
 import com.hy.android.utils.AppManager;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by Administrator on 2018/4/3.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+    private Unbinder bind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(bindLayout());
+        bind = ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
         initView();
         initData();
@@ -63,5 +68,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AppManager.getAppManager().finishActivity(this);
+        bind.unbind();
     }
 }

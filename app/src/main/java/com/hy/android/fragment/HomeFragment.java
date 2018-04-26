@@ -7,14 +7,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hy.android.Base.BaseFragment;
 import com.hy.android.R;
+import com.hy.android.activity.ArticleDetailActivity;
 import com.hy.android.adapter.HomeAdapter;
 import com.hy.android.bean.BannerData;
 import com.hy.android.bean.BaseResponse;
 import com.hy.android.bean.HomeData;
+import com.hy.android.bean.HomeDataList;
+import com.hy.android.net.BaseObserver;
 import com.hy.android.net.RetrofitHelper;
 import com.hy.android.utils.GlideImageLoader;
 import com.youth.banner.Banner;
@@ -76,6 +82,14 @@ public class HomeFragment extends BaseFragment {
             }
         });
         getBanner();
+        getHomeList(0);
+
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ArticleDetailActivity.startActivity(getActivity(), homeDatas.get(position).title, homeDatas.get(position).link);
+            }
+        });
     }
 
     @Override
@@ -86,41 +100,58 @@ public class HomeFragment extends BaseFragment {
 
     private void refreshData() {
         swipeRefreshLayout.setRefreshing(true);
-        //mAdapter.setEnableLoadMore(false);
-        getHomeList();
+        mAdapter.setEnableLoadMore(false);
+        getHomeList(0);
     }
 
     private void getBanner() {
         RetrofitHelper.getInstance().getApiService().getBannerData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<List<BannerData>>>() {
-
+                .subscribe(new BaseObserver<BaseResponse<List<BannerData>>>() {
                     @Override
-                    public void onSubscribe(Disposable d) {}
-
-                    @Override
-                    public void onNext(BaseResponse<List<BannerData>> response) {
-                        if (response != null && response.getData().size() > 0) {
+                    public void onSuccess(BaseResponse<List<BannerData>> response) {
+                        if (response.getErrorCode() == 0 && response.getData().size() > 0) {
                             bannerDatas.clear();
                             bannerDatas.addAll(response.getData());
+                            showBannerData(bannerDatas);
+                        } else {
+                            toast(response.getErrorMsg());
                         }
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: ");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        showBannerData(bannerDatas);
+                    public void onFail(Throwable e) {
+                        Log.e(TAG, e.getMessage());
                     }
                 });
     }
 
-    private void getHomeList() {
+    private void getHomeList(final int page) {
+        RetrofitHelper.getInstance().getApiService().getHomeList(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseResponse<HomeDataList>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<HomeDataList> response) {
+                        if (response.getErrorCode() == 0 && response.getData() != null) {
+                            if (page == 0) {
+                                homeDatas.clear();
+                            }
+                            homeDatas.addAll(response.getData().datas);
+                            mAdapter.notifyDataSetChanged();
+                        } else {
+                            toast(response.getErrorMsg());
+                        }
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
 
+                    @Override
+                    public void onFail(Throwable e) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Log.e(TAG, e.getMessage());
+                    }
+                });
     }
 
     public void showBannerData(List<BannerData> bannerDataList) {
