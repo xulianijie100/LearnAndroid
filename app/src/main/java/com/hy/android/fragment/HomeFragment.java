@@ -75,6 +75,14 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.addHeaderView(mBanner);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                int page = mAdapter.getData().size()/ 20 + 1;
+                 getHomeList(page);
+            }
+        },mRecyclerView);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -135,10 +143,32 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onSuccess(BaseResponse<HomeDataList> response) {
                         if (response.getErrorCode() == 0 && response.getData() != null) {
-                            if (page == 0) {
-                                homeDatas.clear();
+
+                            int total = response.getData().total;
+
+                            if(total==0){return;}
+
+                            if (total < response.getData().size) {
+                                mAdapter.replaceData(response.getData().datas);
+                                mAdapter.loadMoreComplete();
+                                mAdapter.loadMoreEnd();
+                                mAdapter.setEnableLoadMore(false);
+                                return;
                             }
-                            homeDatas.addAll(response.getData().datas);
+
+                            Log.e("data==",total+"--"+response.getData().size);
+
+                            if (response.getData().offset >= total || response.getData().size >= total) {
+                                mAdapter.loadMoreEnd();
+                                return;
+                            }
+                            if (swipeRefreshLayout.isRefreshing()) {
+                                mAdapter.replaceData(response.getData().datas);
+                            } else {
+                                mAdapter.addData(response.getData().datas);
+                            }
+                            mAdapter.loadMoreComplete();
+                            mAdapter.setEnableLoadMore(true);
                             mAdapter.notifyDataSetChanged();
                         } else {
                             toast(response.getErrorMsg());
@@ -149,6 +179,8 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onFail(Throwable e) {
                         swipeRefreshLayout.setRefreshing(false);
+                        mAdapter.setEnableLoadMore(false);
+                        mAdapter.loadMoreFail();
                         Log.e(TAG, e.getMessage());
                     }
                 });
