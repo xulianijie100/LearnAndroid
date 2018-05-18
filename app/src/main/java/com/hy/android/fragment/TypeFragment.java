@@ -1,25 +1,19 @@
 package com.hy.android.fragment;
 
-import android.support.v7.widget.RecyclerView;
-import android.widget.FrameLayout;
+import android.view.View;
+import android.widget.TextView;
 
 import com.hy.android.Base.BaseFragment;
 import com.hy.android.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-/**
- * Created by Administrator on 2018/4/17.
- */
-
-public class TypeFragment extends BaseFragment {
+public class TypeFragment extends BaseFragment implements View.OnClickListener {
 
 
-    @BindView(R.id.recyclerView_dot)
-    RecyclerView recyclerView_dot;
-
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.tv_01)
+    TextView tv_01;
 
     @Override
     protected int getLayoutId() {
@@ -33,6 +27,15 @@ public class TypeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+    }
 
+    @OnClick({R.id.tv_01})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_01:
+                break;
+            default:
+                break;
+        }
     }
 }

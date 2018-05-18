@@ -34,6 +34,9 @@
         <activity
             android:name=".activity.ArticleDetailActivity"
             android:configChanges="orientation" />
+        <activity
+            android:name=".activity.ViewActivity"
+            android:configChanges="orientation" />
     </application>
 
 </manifest>

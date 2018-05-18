@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by Administrator on 2018/4/3.
  */
@@ -35,6 +38,8 @@ public abstract class BaseFragment extends Fragment {
      */
     protected abstract void initView();
 
+    private Unbinder bind;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -44,13 +49,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getLayoutId(), container, false);
-        return mView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        bind = ButterKnife.bind(mView);
         initView();
+        return mView;
     }
 
     @Override
@@ -63,5 +64,11 @@ public abstract class BaseFragment extends Fragment {
 
     public void toast(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind.unbind();
     }
 }
