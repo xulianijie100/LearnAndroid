@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 26
-
-
-
     defaultConfig {
         applicationId "com.hy.location"
         minSdkVersion 19
@@ -15,7 +13,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -23,6 +20,14 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file('./keystore/haoyun.jks')
+            keyAlias 'key_hy'
+            keyPassword '123456'
+            storePassword '123456'
+        }
+    }
 }
 
 dependencies {
@@ -30,11 +35,11 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
-
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
-//    implementation 'com.jakewharton:butterknife:8.8.1'
-//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //    implementation 'com.jakewharton:butterknife:8.8.1'
+    //    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    compile 'com.amap.api:location:latest.integration'
     implementation files('libs/jxl.jar')
 }

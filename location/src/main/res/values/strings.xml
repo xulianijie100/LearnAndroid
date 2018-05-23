@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Location</string>
+
+    <string name="str_local">定位</string>
 </resources>
