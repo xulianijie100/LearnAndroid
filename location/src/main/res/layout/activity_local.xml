@@ -21,6 +21,7 @@
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/edit_local"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -41,14 +42,13 @@
 
 
     <Button
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="200dp"
         android:background="@drawable/btn_bg_selector"
-        android:enabled="false"
         android:gravity="center"
         android:text="保存"
         android:textColor="#FFFFFF"

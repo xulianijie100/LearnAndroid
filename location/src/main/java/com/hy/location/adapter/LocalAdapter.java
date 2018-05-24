@@ -21,17 +21,16 @@ public class LocalAdapter extends BaseQuickAdapter<LocalBean, LocalViewHolder> {
 
     @Override
     protected void convert(LocalViewHolder helper, LocalBean item) {
-        if (!TextUtils.isEmpty(item.name)) {
-            helper.setText(R.id.tv_name, item.name);
-
-        }
 
         if(item.localArray!=null && item.localArray.size()>0){
-
+            helper.setText(R.id.tv_name, item.localArray.get(0));
             String local="";
-            for(String str:item.localArray){
-                local+=str+" --> ";
+            if(item.localArray.size()>1){
+                for(int i=1;i<item.localArray.size();i++){
+                    local+=item.localArray.get(i)+" --> ";
+                }
             }
+
             helper.setText(R.id.tv_local, local.substring(0,local.length()-4));
 
         }

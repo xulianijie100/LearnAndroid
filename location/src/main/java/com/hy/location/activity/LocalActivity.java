@@ -2,11 +2,13 @@ package com.hy.location.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -18,8 +20,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,19 +33,43 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.hy.location.MyApplication;
 import com.hy.location.R;
+import com.hy.location.bean.LocalBean;
+import com.hy.location.utils.RefreshEvent;
+import com.hy.location.utils.SaveListUtil;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
-public class LocalActivity extends AppCompatActivity implements AMapLocationListener {
 
+public class LocalActivity extends AppCompatActivity implements AMapLocationListener {
+    private static final String TAG = "LocalActivity";
     private static final int MY_PERMISSION_REQUEST_CODE = 1000;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
 
     private TextView tv_address;
+    private Context mContext;
+    private Button btn_add;
+    private EditText edit_local;
+    private String edit_str = "";
+    private String address = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,27 +93,117 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
         requestPermission();
     }
 
-    private void initView(){
-        tv_address=findViewById(R.id.tv_address);
+    private void initView() {
+        mContext = LocalActivity.this;
+        tv_address = findViewById(R.id.tv_address);
+        btn_add = findViewById(R.id.btn_add);
+        edit_local = findViewById(R.id.edit_local);
+
+        LocalBean localBean = (LocalBean) getIntent().getSerializableExtra("line");
+        if (localBean != null) {
+            edit_local.setText(localBean.localArray.get(0));
+        }
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit_str = edit_local.getText().toString();
+                if (TextUtils.isEmpty(edit_str) || TextUtils.isEmpty(address)) {
+                    Toast.makeText(mContext, "线路名称与位置不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ArrayList<LocalBean> storageEntities = SaveListUtil.getStorageEntities("haoyun.txt");
+                boolean flag = false;
+                for (LocalBean b : storageEntities) {
+                    if (edit_str.equals(b.localArray.get(0))) {
+                        b.localArray.add(address);
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    LocalBean bean = new LocalBean();
+                    bean.localArray.add(edit_str);
+                    bean.localArray.add(address);
+                    storageEntities.add(bean);
+                }
+                SaveListUtil.saveList2SDCard(storageEntities,"haoyun.txt");
+                EventBus.getDefault().post(new RefreshEvent(storageEntities));
+                finish();
+            }
+        });
     }
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler=new Handler(){
+    private Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 100:
-                    Bundle bundle=msg.getData();
-                    String str=bundle.getString("address");
-                    tv_address.setText(str);
+                    Bundle bundle = msg.getData();
+                    address = bundle.getString("address");
+                    tv_address.setText(address);
                     break;
                 default:
                     break;
             }
         }
     };
+
+    public static Workbook getWorkbok(File file) throws IOException {
+        Workbook wb = null;
+        FileInputStream in = new FileInputStream(file);
+        if (file.getName().endsWith("xls")) {  //Excel 2003
+            wb = new HSSFWorkbook(in);
+        } else if (file.getName().endsWith("xlsx")) {  // Excel 2007/2010
+            //wb = new XSSFWorkbook(in);
+        }
+        return wb;
+    }
+
+    private class writeDataThread extends Thread {
+
+        String path;
+
+        public writeDataThread(String xlsName) {
+            this.path = Environment.getExternalStorageDirectory().toString() + "/" + xlsName;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            OutputStream out = null;
+            File finalXlsxFile = new File(path);
+            Workbook wb = null;
+            try {
+                wb = getWorkbok(finalXlsxFile);
+                Sheet sheet = (Sheet) wb.createSheet();
+                for (int i = 0; i < MyApplication.getList().size(); i++) {
+                    Row nrow = sheet.createRow(i);
+                    for (int j = 0; j < MyApplication.getList().get(i).localArray.size(); j++) {
+                        Cell ncell = nrow.createCell(j);
+                        ncell.setCellValue(MyApplication.getList().get(i).localArray.get(j));
+                    }
+                }
+                out = new FileOutputStream(path);
+                wb.write(out);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.flush();
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        }
+    }
 
     private void location() {
         mLocationClient = new AMapLocationClient(getApplicationContext());
@@ -236,11 +356,11 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
                         + aMapLocation.getDistrict() + ""
                         + aMapLocation.getStreet() + ""
                         + aMapLocation.getStreetNum());
-                Message message=mHandler.obtainMessage();
+                Message message = mHandler.obtainMessage();
                 Bundle bundle = new Bundle();
                 bundle.putString("address", buffer.toString());// 将服务器返回的订单号传到Bundle中，，再通过handler传出
                 message.setData(bundle);
-                message.what=100;
+                message.what = 100;
                 mHandler.sendMessage(message);
 
             } else {

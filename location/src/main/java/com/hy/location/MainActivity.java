@@ -3,9 +3,9 @@ package com.hy.location;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,16 +14,26 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hy.location.activity.LocalActivity;
 import com.hy.location.adapter.LocalAdapter;
 import com.hy.location.bean.LocalBean;
+import com.hy.location.utils.RefreshEvent;
+import com.hy.location.utils.SaveListUtil;
 
-import java.io.InputStream;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.FileInputStream;
 import java.util.ArrayList;
-
-import jxl.Sheet;
-import jxl.Workbook;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,21 +47,39 @@ public class MainActivity extends AppCompatActivity {
 
     private LocalAdapter adapter;
 
+    private ArrayList<LocalBean> list_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mContext=MainActivity.this;
         initView();
         initToolbar();
     }
 
-    private void initView(){
-        recyclerView=findViewById(R.id.recyclerView);
+    private void initView() {
+        EventBus.getDefault().register(this);
+        mContext = MainActivity.this;
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         progressDialog = new ProgressDialog(this);
 
-        new ExcelDataLoader().execute("test1.xls");
+        list_data = SaveListUtil.getStorageEntities("haoyun.txt");
+        if (list_data.size() == 0) {
+            new ExcelDataLoader().execute("hy.xls");
+        }
+        adapter = new LocalAdapter(R.layout.list_item,list_data);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent=new Intent(mContext,LocalActivity.class);
+                intent.putExtra("line",list_data.get(position));
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void initToolbar() {
@@ -63,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(RefreshEvent event) {
+        list_data.clear();
+        list_data.addAll(event.list);
+        adapter.notifyDataSetChanged();
+    }
+
+
     /**
      * 获取 excel 表格中的数据,不能在主线程中调用
      *
@@ -71,32 +108,36 @@ public class MainActivity extends AppCompatActivity {
      */
     private ArrayList<LocalBean> getXlsData(String xlsName, int index) {
         ArrayList<LocalBean> countryList = new ArrayList<>();
+        HSSFWorkbook wb = null;
+        POIFSFileSystem fs = null;
+        String path = Environment.getExternalStorageDirectory().toString() + "/" + xlsName;
+        Log.e("path==", path);
         try {
-            InputStream is = mContext.getAssets().open(xlsName);
-            Workbook workbook = Workbook.getWorkbook(is);
-            Sheet sheet = workbook.getSheet(index);
+            fs = new POIFSFileSystem(new FileInputStream(path));
+            wb = new HSSFWorkbook(fs);
+            Sheet sheet = wb.getSheetAt(0);
 
-            int sheetRows = sheet.getRows();
-            int sheetColumns = sheet.getColumns();
+            int rownum = sheet.getLastRowNum();
 
-            Log.e(TAG, "total rows is 行=" + sheetRows);
-            Log.e(TAG, "total cols is 列=" + sheetColumns);
+            Log.e(TAG, "total rows is 行=" + rownum);
 
-            for (int i = 0; i < sheetRows; i++) {
+            for (int i = 0; i <= rownum; i++) {
                 LocalBean bean = new LocalBean();
-                bean.name = (sheet.getCell(0, i).getContents());
-                for(int j=1;j<sheetColumns;j++){
-                    bean.localArray.add(sheet.getCell(j, i).getContents());
+                Row row = sheet.getRow(i);
+                short cellnum = row.getLastCellNum();
+                for (int j = row.getFirstCellNum(); j < cellnum; j++) {
+                    Cell celldata = row.getCell(j);
+                    String data = celldata + "";
+                    bean.localArray.add(data);
                 }
                 countryList.add(bean);
             }
-            is.close();
-            workbook.close();
+            wb.close();
+            fs.close();
 
         } catch (Exception e) {
             Log.e(TAG, "read error=" + e, e);
         }
-
         return countryList;
     }
 
@@ -106,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            Log.e(TAG, " onPreExecute ----" );
+            Log.e(TAG, " onPreExecute ----");
             progressDialog.setMessage("加载中,请稍后......");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
@@ -124,19 +165,20 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (list != null && list.size() > 0) {
-                Log.e("list==",list.size()+"");
-                for(LocalBean bean:list){
-                    Log.e("list==",bean.name+"");
-                }
                 //存在数据
-                adapter = new LocalAdapter(R.layout.list_item, list);
-                recyclerView.setAdapter(adapter);
+                SaveListUtil.saveList2SDCard(list,"haoyun.txt");
+                list_data = SaveListUtil.getStorageEntities("haoyun.txt");
+                for(LocalBean b:list_data){
+                    adapter.addData(b);
+                }
+
             } else {
                 //加载失败
             }
 
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -156,4 +198,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
