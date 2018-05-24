@@ -167,10 +167,9 @@ public class MainActivity extends AppCompatActivity {
             if (list != null && list.size() > 0) {
                 //存在数据
                 SaveListUtil.saveList2SDCard(list,"haoyun.txt");
-                list_data = SaveListUtil.getStorageEntities("haoyun.txt");
-                for(LocalBean b:list_data){
-                    adapter.addData(b);
-                }
+                ArrayList<LocalBean> storageEntities = SaveListUtil.getStorageEntities("haoyun.txt");
+                list_data.addAll(storageEntities);
+                adapter.notifyDataSetChanged();
 
             } else {
                 //加载失败

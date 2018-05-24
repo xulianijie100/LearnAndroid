@@ -114,9 +114,9 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
                 }
                 ArrayList<LocalBean> storageEntities = SaveListUtil.getStorageEntities("haoyun.txt");
                 boolean flag = false;
-                for (LocalBean b : storageEntities) {
-                    if (edit_str.equals(b.localArray.get(0))) {
-                        b.localArray.add(address);
+                for (int i=0; i<storageEntities.size();i++) {
+                    if (edit_str.equals(storageEntities.get(i).localArray.get(0))) {
+                        storageEntities.get(i).localArray.add(address);
                         flag = true;
                     }
                 }
@@ -179,13 +179,13 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
             try {
                 wb = getWorkbok(finalXlsxFile);
                 Sheet sheet = (Sheet) wb.createSheet();
-                for (int i = 0; i < MyApplication.getList().size(); i++) {
-                    Row nrow = sheet.createRow(i);
-                    for (int j = 0; j < MyApplication.getList().get(i).localArray.size(); j++) {
-                        Cell ncell = nrow.createCell(j);
-                        ncell.setCellValue(MyApplication.getList().get(i).localArray.get(j));
-                    }
-                }
+//                for (int i = 0; i < MyApplication.getList().size(); i++) {
+//                    Row nrow = sheet.createRow(i);
+//                    for (int j = 0; j < MyApplication.getList().get(i).localArray.size(); j++) {
+//                        Cell ncell = nrow.createCell(j);
+//                        ncell.setCellValue(MyApplication.getList().get(i).localArray.get(j));
+//                    }
+//                }
                 out = new FileOutputStream(path);
                 wb.write(out);
             } catch (IOException e) {
