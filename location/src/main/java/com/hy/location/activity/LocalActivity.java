@@ -33,15 +33,19 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.hy.location.MyApplication;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DrivePath;
+import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.RideRouteResult;
+import com.amap.api.services.route.RouteSearch;
+import com.amap.api.services.route.WalkRouteResult;
 import com.hy.location.R;
 import com.hy.location.bean.LocalBean;
 import com.hy.location.utils.RefreshEvent;
 import com.hy.location.utils.SaveListUtil;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.greenrobot.eventbus.EventBus;
@@ -54,9 +58,10 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
-public class LocalActivity extends AppCompatActivity implements AMapLocationListener {
+public class LocalActivity extends AppCompatActivity implements AMapLocationListener, RouteSearch.OnRouteSearchListener {
     private static final String TAG = "LocalActivity";
     private static final int MY_PERMISSION_REQUEST_CODE = 1000;
     //声明AMapLocationClient类对象
@@ -69,6 +74,14 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
     private EditText edit_local;
     private String edit_str = "";
     private String address = "";
+
+    private RouteSearch mRouteSearch;
+    protected LatLonPoint mEndLatlng;
+    protected LatLonPoint mStartLatlng;
+    private DriveRouteResult mDriveRouteResult;
+
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +106,19 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
         requestPermission();
     }
 
+    private void SearchLocal() {
+        mRouteSearch = new RouteSearch(this);
+        mRouteSearch.setRouteSearchListener(this);
+        //经度--纬度: 113.372864---22.978249
+        mStartLatlng = new LatLonPoint(Double.valueOf(latitude), Double.valueOf(longitude));
+        mEndLatlng = new LatLonPoint(Double.valueOf("24"), Double.valueOf("120"));
+        final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
+                mStartLatlng, mEndLatlng);
+        RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DrivingDefault, null,
+                null, "");// 第一个参数表示路径规划的起点和终点，第二个参数表示驾车模式，第三个参数表示途经点，第四个参数表示避让区域，第五个参数表示避让道路
+        mRouteSearch.calculateDriveRouteAsyn(query);// 异步路径规划驾车模式查询
+    }
+
     private void initView() {
         mContext = LocalActivity.this;
         tv_address = findViewById(R.id.tv_address);
@@ -107,28 +133,29 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit_str = edit_local.getText().toString();
-                if (TextUtils.isEmpty(edit_str) || TextUtils.isEmpty(address)) {
-                    Toast.makeText(mContext, "线路名称与位置不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ArrayList<LocalBean> storageEntities = SaveListUtil.getStorageEntities("haoyun.txt");
-                boolean flag = false;
-                for (int i=0; i<storageEntities.size();i++) {
-                    if (edit_str.equals(storageEntities.get(i).localArray.get(0))) {
-                        storageEntities.get(i).localArray.add(address);
-                        flag = true;
-                    }
-                }
-                if (!flag) {
-                    LocalBean bean = new LocalBean();
-                    bean.localArray.add(edit_str);
-                    bean.localArray.add(address);
-                    storageEntities.add(bean);
-                }
-                SaveListUtil.saveList2SDCard(storageEntities,"haoyun.txt");
-                EventBus.getDefault().post(new RefreshEvent(storageEntities));
-                finish();
+//                edit_str = edit_local.getText().toString();
+//                if (TextUtils.isEmpty(edit_str) || TextUtils.isEmpty(address)) {
+//                    Toast.makeText(mContext, "线路名称与位置不能为空", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                ArrayList<LocalBean> storageEntities = SaveListUtil.getStorageEntities("haoyun.txt");
+//                boolean flag = false;
+//                for (int i = 0; i < storageEntities.size(); i++) {
+//                    if (edit_str.equals(storageEntities.get(i).localArray.get(0))) {
+//                        storageEntities.get(i).localArray.add(address);
+//                        flag = true;
+//                    }
+//                }
+//                if (!flag) {
+//                    LocalBean bean = new LocalBean();
+//                    bean.localArray.add(edit_str);
+//                    bean.localArray.add(address);
+//                    storageEntities.add(bean);
+//                }
+//                SaveListUtil.saveList2SDCard(storageEntities, "haoyun.txt");
+//                EventBus.getDefault().post(new RefreshEvent(storageEntities));
+//                finish();
+                SearchLocal();
             }
         });
     }
@@ -245,7 +272,8 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
                 new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.READ_PHONE_STATE
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_SETTINGS
                 },
                 MY_PERMISSION_REQUEST_CODE
         );
@@ -331,8 +359,9 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
             if (aMapLocation.getErrorCode() == 0) {
                 //定位成功回调信息，设置相关消息
                 aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见官方定位类型表
-                aMapLocation.getLatitude();//获取纬度
-                aMapLocation.getLongitude();//获取经度
+                latitude = aMapLocation.getLatitude();//获取纬度
+                longitude = aMapLocation.getLongitude();//获取经度
+                Log.e("经度--纬度", longitude + "---" + latitude);
                 aMapLocation.getAccuracy();//获取精度信息
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date(aMapLocation.getTime());
@@ -379,5 +408,36 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
         //mLocationClient.stopLocation();//停止定位
         mLocationClient.onDestroy();//销毁定位客户端。
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+
+    @Override
+    public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
+
+        Log.e("result==", "" + i);
+
+
+        if (driveRouteResult != null && driveRouteResult.getPaths() != null) {
+            if (driveRouteResult.getPaths().size() > 0) {
+                DrivePath path = driveRouteResult.getPaths().get(0);
+            }
+        }
+
+    }
+
+
+    @Override
+    public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
+
+    }
+
+    @Override
+    public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
+
+    }
+
+    @Override
+    public void onRideRouteSearched(RideRouteResult rideRouteResult, int i) {
+
     }
 }
