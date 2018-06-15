@@ -2,4 +2,5 @@
     <string name="app_name">路线管理</string>
 
     <string name="str_local">定位</string>
+    <string name="str_add_route">线路添加</string>
 </resources>

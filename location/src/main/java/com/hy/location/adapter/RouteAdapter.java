@@ -24,7 +24,7 @@ public class RouteAdapter extends BaseQuickAdapter<LineBean, RouteViewHolder> {
     protected void convert(RouteViewHolder helper, LineBean item) {
 
         if (item != null) {
-            helper.setText(R.id.tv_name, item.getPointName());
+            helper.setText(R.id.tv_name, item.getRouteName());
         }
     }
 }

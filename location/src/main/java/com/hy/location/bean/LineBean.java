@@ -7,6 +7,7 @@ import io.realm.annotations.RealmClass;
 public class LineBean implements RealmModel {
     private String id;
     private int RouteID;
+    private String routeName;  //路线名称
     private String pointName;  //路段名称
     private double longitude;  //经度
     private double latitude;    //纬度
@@ -49,5 +50,13 @@ public class LineBean implements RealmModel {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
 }

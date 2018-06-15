@@ -47,23 +47,12 @@
             android:background="@color/gray" />
 
         <TextView
+            android:id="@+id/tv_pointName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_weight="3"
             android:gravity="center"
-            android:text="起点" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="35dp"
-            android:background="@color/gray" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:gravity="center"
-            android:text="终点" />
+            android:text="路段名称" />
     </LinearLayout>
 
     <View style="@style/view_line" />
@@ -76,9 +65,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_line"
             android:layout_width="0dp"
-            tools:listitem="@layout/list_route_item"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:listitem="@layout/list_route_item" />
 
         <View
             android:layout_width="1dp"

@@ -1,4 +1,4 @@
-package com.hy.location;
+package com.hy.location.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,10 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hy.location.activity.LocalActivity;
+import com.hy.location.R;
 import com.hy.location.adapter.LocalAdapter;
 import com.hy.location.bean.LocalBean;
 import com.hy.location.utils.RefreshEvent;

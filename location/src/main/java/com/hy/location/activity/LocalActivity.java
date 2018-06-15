@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.hy.location.R;
+import com.hy.location.bean.LineBean;
 import com.hy.location.bean.LocalBean;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -54,6 +56,8 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.realm.Realm;
+
 
 public class LocalActivity extends AppCompatActivity implements AMapLocationListener, RouteSearch.OnRouteSearchListener {
     private static final String TAG = "LocalActivity";
@@ -62,12 +66,12 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
 
-    private TextView tv_address;
+    private EditText edit_local1;
+    private EditText edit_local2;
     private Context mContext;
     private Button btn_add;
     private EditText edit_local;
     private String edit_str = "";
-    private String address = "";
 
     private RouteSearch mRouteSearch;
     protected LatLonPoint mEndLatlng;
@@ -76,6 +80,8 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
 
     private double latitude;
     private double longitude;
+
+    private Realm mRealm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,42 +121,30 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
 
     private void initView() {
         mContext = LocalActivity.this;
-        tv_address = (TextView) findViewById(R.id.tv_address);
+        mRealm = Realm.getDefaultInstance();
         btn_add = (Button) findViewById(R.id.btn_add);
         edit_local = (EditText) findViewById(R.id.edit_local);
+        edit_local1 = (EditText) findViewById(R.id.edit_local_1);
+        edit_local2 = (EditText) findViewById(R.id.edit_local_2);
 
-        LocalBean localBean = (LocalBean) getIntent().getSerializableExtra("line");
-        if (localBean != null) {
-            edit_local.setText(localBean.localArray.get(0));
-        }
+        btn_add.setOnClickListener(v -> {
+            edit_str = edit_local.getText().toString();
+            String edit_str1 = edit_local1.getText().toString();
+            String edit_str2 = edit_local2.getText().toString();
 
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                edit_str = edit_local.getText().toString();
-//                if (TextUtils.isEmpty(edit_str) || TextUtils.isEmpty(address)) {
-//                    Toast.makeText(mContext, "线路名称与位置不能为空", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                ArrayList<LocalBean> storageEntities = SaveListUtil.getStorageEntities("haoyun.txt");
-//                boolean flag = false;
-//                for (int i = 0; i < storageEntities.size(); i++) {
-//                    if (edit_str.equals(storageEntities.get(i).localArray.get(0))) {
-//                        storageEntities.get(i).localArray.add(address);
-//                        flag = true;
-//                    }
-//                }
-//                if (!flag) {
-//                    LocalBean bean = new LocalBean();
-//                    bean.localArray.add(edit_str);
-//                    bean.localArray.add(address);
-//                    storageEntities.add(bean);
-//                }
-//                SaveListUtil.saveList2SDCard(storageEntities, "haoyun.txt");
-//                EventBus.getDefault().post(new RefreshEvent(storageEntities));
-//                finish();
-                SearchLocal();
+            if (TextUtils.isEmpty(edit_str)) {
+                Toast.makeText(mContext, "线路名称不能为空", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            LineBean bean = new LineBean();
+            bean.setRouteName(edit_str);
+            bean.setPointName(edit_str1+"--->"+edit_str2);
+            mRealm.beginTransaction();
+            mRealm.copyToRealm(bean);
+            mRealm.commitTransaction();
+
+            finish();
         });
     }
 
@@ -163,8 +157,7 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
             switch (msg.what) {
                 case 100:
                     Bundle bundle = msg.getData();
-                    address = bundle.getString("address");
-                    tv_address.setText(address);
+                    String address = bundle.getString("address");
                     break;
                 default:
                     break;
@@ -255,7 +248,7 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.str_local);
+            actionBar.setTitle(R.string.str_add_route);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
