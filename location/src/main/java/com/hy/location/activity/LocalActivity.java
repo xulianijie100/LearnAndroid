@@ -20,7 +20,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,13 +41,10 @@ import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.hy.location.R;
 import com.hy.location.bean.LocalBean;
-import com.hy.location.utils.RefreshEvent;
-import com.hy.location.utils.SaveListUtil;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,9 +52,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 public class LocalActivity extends AppCompatActivity implements AMapLocationListener, RouteSearch.OnRouteSearchListener {
@@ -121,9 +115,9 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
 
     private void initView() {
         mContext = LocalActivity.this;
-        tv_address = findViewById(R.id.tv_address);
-        btn_add = findViewById(R.id.btn_add);
-        edit_local = findViewById(R.id.edit_local);
+        tv_address = (TextView) findViewById(R.id.tv_address);
+        btn_add = (Button) findViewById(R.id.btn_add);
+        edit_local = (EditText) findViewById(R.id.edit_local);
 
         LocalBean localBean = (LocalBean) getIntent().getSerializableExtra("line");
         if (localBean != null) {
@@ -257,7 +251,7 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

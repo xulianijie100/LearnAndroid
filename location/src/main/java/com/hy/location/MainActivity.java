@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         EventBus.getDefault().register(this);
         mContext = MainActivity.this;
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         progressDialog = new ProgressDialog(this);
 
@@ -71,19 +71,16 @@ public class MainActivity extends AppCompatActivity {
         adapter = new LocalAdapter(R.layout.list_item,list_data);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent=new Intent(mContext,LocalActivity.class);
-                intent.putExtra("line",list_data.get(position));
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent=new Intent(mContext,LocalActivity.class);
+            intent.putExtra("line",list_data.get(position));
+            startActivity(intent);
         });
 
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
