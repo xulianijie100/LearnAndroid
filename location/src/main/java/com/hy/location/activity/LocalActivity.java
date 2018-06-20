@@ -397,7 +397,6 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
         mHandler.removeCallbacksAndMessages(null);
     }
 
-
     @Override
     public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
 
