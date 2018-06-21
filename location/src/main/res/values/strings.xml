@@ -4,4 +4,7 @@
     <string name="str_local">定位</string>
     <string name="str_add_route">线路添加</string>
     <string name="no_result">对不起，没有搜索到相关数据！</string>
+    <string name="str_save_success">成功保存到</string>
+
+    <string name="tip_get_point">请先点击线路获取网点</string>
 </resources>

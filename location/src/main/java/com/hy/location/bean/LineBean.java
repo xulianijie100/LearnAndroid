@@ -6,11 +6,11 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class LineBean implements RealmModel {
     private String id;
-    private int RouteID;
     private String routeName;  //路线名称
-    private String pointName;  //路段名称
-    private double longitude;  //经度
-    private double latitude;    //纬度
+    private String beginLng;
+    private String beginLat;
+    private String endLng;
+    private String endLat;
 
     public String getId() {
         return id;
@@ -20,43 +20,43 @@ public class LineBean implements RealmModel {
         this.id = id;
     }
 
-    public int getRouteID() {
-        return RouteID;
-    }
-
-    public void setRouteID(int routeID) {
-        RouteID = routeID;
-    }
-
-    public String getPointName() {
-        return pointName;
-    }
-
-    public void setPointName(String pointName) {
-        this.pointName = pointName;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public String getRouteName() {
         return routeName;
     }
 
     public void setRouteName(String routeName) {
         this.routeName = routeName;
+    }
+
+    public String getBeginLng() {
+        return beginLng;
+    }
+
+    public void setBeginLng(String beginLng) {
+        this.beginLng = beginLng;
+    }
+
+    public String getBeginLat() {
+        return beginLat;
+    }
+
+    public void setBeginLat(String beginLat) {
+        this.beginLat = beginLat;
+    }
+
+    public String getEndLng() {
+        return endLng;
+    }
+
+    public void setEndLng(String endLng) {
+        this.endLng = endLng;
+    }
+
+    public String getEndLat() {
+        return endLat;
+    }
+
+    public void setEndLat(String endLat) {
+        this.endLat = endLat;
     }
 }

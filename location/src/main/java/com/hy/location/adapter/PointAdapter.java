@@ -1,5 +1,6 @@
 package com.hy.location.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +28,6 @@ public class PointAdapter extends RecyclerView.Adapter<PointViewHolder> {
     private Context mContext;
     private List<DriveStep> mData = new ArrayList<>();
 
-
     public PointAdapter(Context context, List<DriveStep> datas) {
         mContext = context;
         if (datas != null) {
@@ -42,19 +42,25 @@ public class PointAdapter extends RecyclerView.Adapter<PointViewHolder> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
     public void onBindViewHolder(PointViewHolder holder, int position) {
         final DriveStep item = mData.get(position);
         if (item != null) {
             if (position == 0) {
                 holder.driveDirIcon.setImageResource(R.mipmap.dir_start);
-                holder.driveLineName.setText("出发");
+                holder.driveLineName.setText(item.getInstruction());
                 holder.driveDirUp.setVisibility(View.GONE);
                 holder.driveDirDown.setVisibility(View.VISIBLE);
                 holder.splitLine.setVisibility(View.GONE);
 
             } else if (position == mData.size() - 1) {
                 holder.driveDirIcon.setImageResource(R.mipmap.dir_end);
-                holder.driveLineName.setText("到达终点");
+                holder.driveLineName.setText(item.getInstruction());
                 holder.driveDirUp.setVisibility(View.VISIBLE);
                 holder.driveDirDown.setVisibility(View.GONE);
                 holder.splitLine.setVisibility(View.VISIBLE);

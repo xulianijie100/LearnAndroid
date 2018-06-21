@@ -139,7 +139,7 @@ public class LocalActivity extends AppCompatActivity implements AMapLocationList
 
             LineBean bean = new LineBean();
             bean.setRouteName(edit_str);
-            bean.setPointName(edit_str1+"--->"+edit_str2);
+            bean.setRouteName(edit_str1+"--->"+edit_str2);
             mRealm.beginTransaction();
             mRealm.copyToRealm(bean);
             mRealm.commitTransaction();
