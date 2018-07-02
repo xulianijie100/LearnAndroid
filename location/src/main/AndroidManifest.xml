@@ -43,7 +43,7 @@
 
         <activity android:name=".activity.LocalActivity"/>
 
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="063dea32d532d2bdcd8a4e2bcb3e7332"/> <!--开发者申请的key-->
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="4f2b020ab2f13c18e86791c933edbab8"/> <!--开发者申请的key-->
         <service android:name="com.amap.api.location.APSService"/>
     </application>
 
