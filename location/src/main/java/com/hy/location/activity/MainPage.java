@@ -94,6 +94,16 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
         initToolbar();
         initView();
         setRouteList();
+
+        boolean granted = checkPermissionAllGranted(new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE
+        });
+
+        if (!granted) {
+            requestPermission();
+        }
     }
 
     private void requestPermission() {
@@ -136,7 +146,6 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
 
             if (isAllGranted) {
                 // 如果所有的权限都授予了,
-                searchLocal();
 
             } else {
                 // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
@@ -221,7 +230,7 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
             currLineBean = list_line.get(position);
             tv_pointName.setEnabled(true);
             tv_pointName.setText(list_line.get(position).getRouteName());
-            startSearch();
+            searchLocal();
         });
         mPointAdapter = new PointAdapter(mContext, null);
         recyclerView_line_dot.setLayoutManager(new LinearLayoutManager(mContext));
@@ -328,8 +337,8 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
             case R.id.tv_input:
                 deleteData();
                 String json = readFromSD("haoyun.txt");
-                if(TextUtils.isEmpty(json)){
-                    Toast.makeText(mContext, "无法获取文件 haoyun.txt" , Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(json)) {
+                    Toast.makeText(mContext, "无法获取文件 haoyun.txt", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
@@ -392,7 +401,7 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
 
     private void saveJson() {
         RealmResults<PointBean> list = mRealm.where(PointBean.class).findAll();
-        RealmResults<PointBean> list1=list.sort(new String[]{"routeID", "pointIndex"}, new Sort[]{Sort.ASCENDING, Sort.ASCENDING});
+        RealmResults<PointBean> list1 = list.sort(new String[]{"routeID", "pointIndex"}, new Sort[]{Sort.ASCENDING, Sort.ASCENDING});
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < list1.size(); i++) {
             PointBean pointBean = list1.get(i);
@@ -406,7 +415,7 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
                 jsonObject.put("PointIndex", pointBean.getPointIndex());
                 jsonObject.put("PointName", pointBean.getPointName());
                 jsonObject.put("NextPointRange", pointBean.getNextPointRange());
-                jsonObject.put("Longitude",pointBean.getLongitude());
+                jsonObject.put("Longitude", pointBean.getLongitude());
                 jsonObject.put("Latitude", pointBean.getLatitude());
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
@@ -425,20 +434,6 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
         saveFile(jsonArray.toString());
     }
 
-    private void startSearch() {
-        boolean granted = checkPermissionAllGranted(new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_PHONE_STATE
-        });
-
-        if (granted) {
-            searchLocal();
-        } else {
-            requestPermission();
-        }
-    }
-
     //读取SD卡中文件的方法
     public String readFromSD(String filename) {
 
@@ -447,7 +442,7 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
             try {
                 filename = Environment.getExternalStorageDirectory().getCanonicalPath() + "/" + filename;
                 FileInputStream input = new FileInputStream(filename);
-                InputStreamReader reader = new InputStreamReader(input, "GBK");
+                InputStreamReader reader = new InputStreamReader(input, "UTF-8");
                 BufferedReader br = new BufferedReader(reader);
                 String line;
                 while ((line = br.readLine()) != null) {
