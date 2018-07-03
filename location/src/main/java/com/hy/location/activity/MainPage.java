@@ -229,7 +229,10 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
         mRouteAdapter.setOnItemClickListener((adapter, view, position) -> {
             currLineBean = list_line.get(position);
             tv_pointName.setEnabled(true);
-            tv_pointName.setText(list_line.get(position).getRouteName());
+            String routeName = list_line.get(position).getRouteName();
+            if(!TextUtils.isEmpty(routeName)){
+                tv_pointName.setText(routeName);
+            }
             searchLocal();
         });
         mPointAdapter = new PointAdapter(mContext, null);
@@ -307,24 +310,47 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
     private void insertDB() {
         if (mDrivePath != null) {
             List<DriveStep> steps = mDrivePath.getSteps();
+            mRealm.beginTransaction();
             for (int i = 0; i < steps.size(); i++) {
                 DriveStep driveStep = steps.get(i);
                 List<LatLonPoint> polyline = driveStep.getPolyline();
-
-                mRealm.beginTransaction();
                 PointBean bean = new PointBean();
                 bean.setId(UUID.randomUUID().toString().replace("-", ""));
                 bean.setRouteID(currLineBean.getId());
-                bean.setPointIndex("" + i);
+                bean.setPointIndex("" + (i+2));
                 bean.setPointName(driveStep.getInstruction());
                 bean.setNextPointRange(driveStep.getDistance());
                 bean.setLongitude(polyline.get(0).getLongitude());
                 bean.setLatitude(polyline.get(0).getLatitude());
 
                 mRealm.insert(bean);
-                mRealm.commitTransaction();
-                Toast.makeText(mContext, "已保存", Toast.LENGTH_SHORT).show();
             }
+
+            PointBean bean1 = new PointBean();
+            bean1.setId(UUID.randomUUID().toString().replace("-", ""));
+            bean1.setRouteID(currLineBean.getId());
+            bean1.setPointIndex("1");
+            bean1.setPointName("起点");
+            bean1.setNextPointRange(0);
+            bean1.setLongitude(Double.valueOf(currLineBean.getBeginLng()));
+            bean1.setLatitude(Double.valueOf(currLineBean.getBeginLat()));
+
+            mRealm.insert(bean1);
+
+            PointBean bean2 = new PointBean();
+            bean2.setId(UUID.randomUUID().toString().replace("-", ""));
+            bean2.setRouteID(currLineBean.getId());
+            int index=steps.size()+2;
+            bean2.setPointIndex(String.valueOf(index));
+            bean2.setPointName("终点");
+            bean2.setNextPointRange(0);
+            bean2.setLongitude(Double.valueOf(currLineBean.getEndLng()));
+            bean2.setLatitude(Double.valueOf(currLineBean.getEndLat()));
+
+            mRealm.insert(bean2);
+
+            mRealm.commitTransaction();
+            Toast.makeText(mContext, "已保存", Toast.LENGTH_SHORT).show();
         }
         if (ld.isShowing()) {
             ld.cancel();
@@ -406,12 +432,12 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
         for (int i = 0; i < list1.size(); i++) {
             PointBean pointBean = list1.get(i);
             JSONObject jsonObject = new JSONObject();
-            Log.e("PointName", pointBean.getPointName());
+            //Log.e("PointName", pointBean.getPointName());
             Log.e("PointIndex", pointBean.getPointIndex() + "");
             Log.e("RouteID", pointBean.getRouteID() + "");
             try {
                 jsonObject.put("id", pointBean.getId());
-                jsonObject.put("RouteID", pointBean.getRouteID());
+                jsonObject.put("fid", pointBean.getRouteID());
                 jsonObject.put("PointIndex", pointBean.getPointIndex());
                 jsonObject.put("PointName", pointBean.getPointName());
                 jsonObject.put("NextPointRange", pointBean.getNextPointRange());
@@ -424,7 +450,7 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
         }
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
