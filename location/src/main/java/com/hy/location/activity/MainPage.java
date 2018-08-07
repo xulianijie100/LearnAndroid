@@ -384,13 +384,16 @@ public class MainPage extends AppCompatActivity implements View.OnClickListener,
                             if (len1 > 0 && len2 > 0) {
                                 bean.setBeginLng(beginLngLat.substring(0, len1));
                                 bean.setBeginLat(beginLngLat.substring(len1 + 1, beginLngLat.length()));
-                                bean.setEndLng(endLngLat.substring(0, len1));
-                                bean.setEndLat(endLngLat.substring(len1 + 1, endLngLat.length()));
+                                bean.setEndLng(endLngLat.substring(0, len2));
+                                bean.setEndLat(endLngLat.substring(len2 + 1, endLngLat.length()));
                             }
                         }
                         mRealm.beginTransaction();
                         mRealm.insert(bean);
                         mRealm.commitTransaction();
+
+                        Log.e("经度",bean.getBeginLng()+"---"+bean.getEndLng());
+                        Log.e("纬度",bean.getBeginLat()+"---"+bean.getEndLat());
 
                         String path = Environment.getExternalStorageDirectory().getCanonicalPath() + "/haoyun.txt";
                         Toast.makeText(mContext, "导入文件" + path, Toast.LENGTH_SHORT).show();
