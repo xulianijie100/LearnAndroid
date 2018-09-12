@@ -2,33 +2,24 @@
 
 **1.什么是ANR 如何避免它？**
 
-    答：在Android 上，如果你的应用程序有一段时间响应不够灵敏，
-    系统会向用户显示一个对话框，这个对话框称作应
-    用程序无响应（ANR：Application Not Responding）对话框。
-    用户可以选择让程序继续运行，但是，他们在使用你的
-    应用程序时，并不希望每次都要处理这个对话框。因此
-    ，在程序里对响应性能的设计很重要这样，系统不会显
-    示ANR给用户。不同的组件发生ANR的时间不一样，主线
-    程（Activity、Service）是5秒，BroadCastReceiver 是10 秒。
+    答：在Android 上，如果你的应用程序有一段时间响应不够灵敏，系统会向用户显示一个对话框，这个对话框称作应用程序无响应（ANR：Application Not Responding）对话框。
+    用户可以选择让程序继续运行，但是，他们在使用你的应用程序时，并不希望每次都要处理这个对话框。因此，在程序里对响应性能的设计很重要这样，系统不会显
+    示ANR给用户。不同的组件发生ANR的时间不一样，主线程（Activity、Service）是5秒，BroadCastReceiver 是10 秒。
     解决方案：
-    将所有耗时操作，比如访问网络，Socket通信，查询大
-    量SQL 语句，复杂逻辑计算等都放在子线程中去，然
-    后通过handler.sendMessage、runonUITread、
-    AsyncTask 等方式更新UI。无论如何都要确保用户界面操作的流畅
-    度。
-    如果耗时操作需要让用户等待，那么可以在界面上显示进度条。
+    将所有耗时操作，比如访问网络，Socket通信，查询大量SQL 语句，复杂逻辑计算等都放在子线程中去，然后通过handler.sendMessage、runonUITread、
+    AsyncTask 等方式更新UI。无论如何都要确保用户界面操作的流畅度。如果耗时操作需要让用户等待，那么可以在界面上显示进度条。
     
 **2.Activity和Fragment生命周期有哪些？**
 
-![image](https://upload-images.jianshu.io/upload_images/2893137-d63537703193a6d1.png?imageMogr2/auto-orient/)
+    Activity——onCreate->onStart->onResume->onPause->onStop->onDestroy
+    Fragment——onAttach->onCreate->onCreateView->onActivityCreated->onStart->onResume->onPause->onStop->onDestroyView->onDestroy->onDetach
 
-![image](http://www.jackywang.tech/AndroidInterview-Q-A/picture/fragment-life.png)
     
 **3.横竖屏切换时候Activity的生命周期**
 
-不设置Activity的android:configChanges时，切屏会重新回掉各个生命周期，切横屏时会执行一次，切竖屏时会执行两次
-设置Activity的android:configChanges=”orientation”时，切屏还是会调用各个生命周期，切换横竖屏只会执行一次
-设置Activity的android:configChanges=”orientation |keyboardHidden”时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法
+    不设置Activity的android:configChanges时，切屏会重新回掉各个生命周期，切横屏时会执行一次，切竖屏时会执行两次
+    设置Activity的android:configChanges=”orientation”时，切屏还是会调用各个生命周期，切换横竖屏只会执行一次
+    设置Activity的android:configChanges=”orientation |keyboardHidden”时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法
 
 **4.AsyncTask的缺陷和问题**
     
