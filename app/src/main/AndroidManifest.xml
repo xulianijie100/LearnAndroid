@@ -40,6 +40,9 @@
         <activity
             android:name=".activity.RxJavaActivity"
             android:configChanges="orientation" />
+        <activity
+            android:name=".activity.TestActivity"
+            android:configChanges="orientation" />
     </application>
 
 </manifest>
