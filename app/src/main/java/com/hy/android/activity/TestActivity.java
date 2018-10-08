@@ -7,7 +7,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.hy.android.Base.BaseActivity;
 import com.hy.android.R;
@@ -30,10 +33,37 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        initToolbar();
 
         String str= PlayerJNI.stringFromJNI();
         Log.e("----",str);
+        //打印值为 Hello from C++
 
+
+        PlayerJNI player=new PlayerJNI();
+        PlayerJNI.funFromJava(player,"1000");
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("test");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
