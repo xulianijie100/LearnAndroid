@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animation-list android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <item android:drawable="@drawable/state_sequencen_01" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_02" android:duration="150"/>
+    <item android:drawable="@drawable/state_sequencen_03" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_04" android:duration="150"/>
+    <item android:drawable="@drawable/state_sequencen_05" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_06" android:duration="150"/>
+    <item android:drawable="@drawable/state_sequencen_07" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_08" android:duration="150"/>
+    <item android:drawable="@drawable/state_sequencen_09" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_10" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_11" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_12" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_13" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_14" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_15" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_16" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_17" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_18" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_19" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_20" android:duration="100"/>
+    <item android:drawable="@drawable/state_sequencen_21" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_22" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_23" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_24" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_25" android:duration="200"/>
+    <item android:drawable="@drawable/state_sequencen_26" android:duration="200"/>
+ </animation-list>
