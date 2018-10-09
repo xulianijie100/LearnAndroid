@@ -1,5 +1,6 @@
 package com.hy.android.activity;
 
+import android.animation.ValueAnimator;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,7 @@ public class AnimationActivity extends BaseActivity {
 
     private ImageView img_01;
     private Button btn_01, btn_02, btn_03, btn_04, btn_05,
-            btn_06, btn_07, btn_08, btn_09, btn_10;
+            btn_06, btn_07, btn_08, btn_09, btn_10,btn_11;
 
     @Override
     public int bindLayout() {
@@ -33,13 +34,14 @@ public class AnimationActivity extends BaseActivity {
     public void initView() {
         img_01 = findViewById(R.id.img_01);
         img_01.setImageResource(R.drawable.anim1);
-        AnimationDrawable anim = (AnimationDrawable) img_01.getDrawable();  //帧动画
+        AnimationDrawable anim = (AnimationDrawable) img_01.getDrawable();  //逐帧动画
         anim.start();
 
         testViewAnimation();
+        testPropertyAnimation();
     }
 
-
+    //补间动画
     private void testViewAnimation() {
 
         //---------------------------------- 1、平移动画 --------------------------------------------------------
@@ -185,6 +187,29 @@ public class AnimationActivity extends BaseActivity {
 
     }
 
+
+    //属性动画
+    private void testPropertyAnimation(){
+        btn_11 = findViewById(R.id.btn_11);
+        final ValueAnimator animator=ValueAnimator.ofInt(btn_11.getLayoutParams().width,500);
+        animator.setDuration(2000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int currentValue= (int) animation.getAnimatedValue();
+                btn_11.getLayoutParams().width=currentValue;
+                btn_11.requestLayout();
+            }
+        });
+
+        btn_11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animator.start();
+            }
+        });
+
+    }
 
     @Override
     protected void initData() {

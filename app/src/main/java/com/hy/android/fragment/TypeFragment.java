@@ -9,11 +9,12 @@ import com.hy.android.R;
 import com.hy.android.activity.AnimationActivity;
 import com.hy.android.activity.RxJavaActivity;
 import com.hy.android.activity.TestActivity;
+import com.hy.android.activity.ViewActivity;
 
 public class TypeFragment extends BaseFragment implements View.OnClickListener {
 
 
-    private CardView cardView_01,cardView_02,cardView_03;
+    private CardView cardView_01,cardView_02,cardView_03,cardView_04;
 
     @Override
     protected int getLayoutId() {
@@ -30,9 +31,11 @@ public class TypeFragment extends BaseFragment implements View.OnClickListener {
         cardView_01 = mView.findViewById(R.id.cardView_01);
         cardView_02 = mView.findViewById(R.id.cardView_02);
         cardView_03 = mView.findViewById(R.id.cardView_03);
+        cardView_04 = mView.findViewById(R.id.cardView_04);
         cardView_01.setOnClickListener(this);
         cardView_02.setOnClickListener(this);
         cardView_03.setOnClickListener(this);
+        cardView_04.setOnClickListener(this);
     }
 
 
@@ -46,6 +49,9 @@ public class TypeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), TestActivity.class));
                 break;
             case R.id.cardView_03:
+                startActivity(new Intent(getActivity(), ViewActivity.class));
+                break;
+            case R.id.cardView_04:
                 startActivity(new Intent(getActivity(), AnimationActivity.class));
                 break;
             default:
