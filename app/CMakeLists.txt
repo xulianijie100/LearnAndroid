@@ -23,7 +23,7 @@ add_library( # Sets the name of the library.
              )
 
 
-set(lib_src_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
+set(lib_src_DIR  ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi/)
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/ffmpeg3/include/)
 
