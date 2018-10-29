@@ -180,7 +180,6 @@ public class TestActivity extends BaseActivity {
                 case 100:
                     String text = (String) msg.obj;
                     Log.e("---", text);
-                    //打印结果：E/---: hello
                     break;
                 default:
                     break;

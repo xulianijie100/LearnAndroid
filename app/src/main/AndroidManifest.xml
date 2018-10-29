@@ -46,6 +46,9 @@
         <activity
             android:name=".activity.AnimationActivity"
             android:configChanges="orientation" />
+        <activity
+            android:name=".activity.TestFunActivity"
+            android:configChanges="orientation" />
     </application>
 
 </manifest>
