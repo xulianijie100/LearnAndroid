@@ -7,8 +7,11 @@ import android.view.MenuItem;
 
 import com.hy.android.Base.BaseActivity;
 import com.hy.android.R;
+import com.hy.android.model.BikeStrategy;
 import com.hy.android.model.Observable;
 import com.hy.android.model.Observer;
+import com.hy.android.model.Travel;
+import com.hy.android.model.WalkStrategly;
 import com.hy.android.model.Weather;
 
 public class TestFunActivity  extends BaseActivity{
@@ -28,13 +31,14 @@ public class TestFunActivity  extends BaseActivity{
     @Override
     protected void initData() {
 
+        //---------------------观察者模式-------------------------------
+
         Observer<Weather>observer1=new Observer<Weather>(){
             @Override
             public void onUpdate(Observable<Weather> observable, Weather data) {
                 Log.e(TAG,data.toString());
             }
         };
-
         Observer<Weather>observer2=new Observer<Weather>(){
             @Override
             public void onUpdate(Observable<Weather> observable, Weather data) {
@@ -48,6 +52,19 @@ public class TestFunActivity  extends BaseActivity{
 
         Weather weather=new Weather("晴转多云...");
         observable.notifyObservers(weather);
+
+
+        //---------------------策略模式-------------------------------
+
+        Travel travel=new Travel();
+
+        WalkStrategly walkStrategly=new WalkStrategly();
+        travel.setStrategy(walkStrategly);
+        travel.travel();
+
+        BikeStrategy bikeStrategy=new BikeStrategy();
+        travel.setStrategy(bikeStrategy);
+        travel.travel();
 
     }
 
