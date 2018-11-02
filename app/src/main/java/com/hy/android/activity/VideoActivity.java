@@ -32,7 +32,7 @@ import java.lang.ref.WeakReference;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class TestActivity extends BaseActivity {
+public class VideoActivity extends BaseActivity {
 
     private TextView tv_decoder;
     private GLSurfaceView mGLView;
@@ -42,7 +42,7 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public int bindLayout() {
-        return R.layout.activity_rx;
+        return R.layout.activity_video;
     }
 
     @Override
@@ -243,16 +243,16 @@ public class TestActivity extends BaseActivity {
     }
 
     private static class ActivityHandler extends Handler {
-        private final WeakReference<TestActivity> mActivity;
+        private final WeakReference<VideoActivity> mActivity;
 
-        public ActivityHandler(TestActivity activity) {
+        public ActivityHandler(VideoActivity activity) {
             this.mActivity = new WeakReference(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             if (this.mActivity != null) {
-                TestActivity activity = this.mActivity.get();
+                VideoActivity activity = this.mActivity.get();
                 if (activity != null && !activity.isFinishing()) {
                     activity.handleMessage(msg);
                 }

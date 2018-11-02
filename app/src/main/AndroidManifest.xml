@@ -41,7 +41,7 @@
             android:name=".activity.RxJavaActivity"
             android:configChanges="orientation" />
         <activity
-            android:name=".activity.TestActivity"
+            android:name=".activity.VideoActivity"
             android:configChanges="orientation" />
         <activity
             android:name=".activity.AnimationActivity"

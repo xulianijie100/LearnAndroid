@@ -42,12 +42,9 @@ public class RxJavaActivity extends BaseActivity {
         Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> e) throws Exception {
-                Log.e(TAG, "observable  ======== 000000000");
                 e.onNext("00000000000");
-                Log.e(TAG, "observable  ======== 1111111111");
                 e.onNext("111111111111");
                 e.onComplete();
-                Log.e(TAG, "observable  ======== 2222222222");
                 e.onNext("222222222222");
             }
         });

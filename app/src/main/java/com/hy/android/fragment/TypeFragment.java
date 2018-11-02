@@ -8,7 +8,7 @@ import com.hy.android.Base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.AnimationActivity;
 import com.hy.android.activity.RxJavaActivity;
-import com.hy.android.activity.TestActivity;
+import com.hy.android.activity.VideoActivity;
 import com.hy.android.activity.TestFunActivity;
 import com.hy.android.activity.ViewActivity;
 
@@ -50,7 +50,7 @@ public class TypeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), RxJavaActivity.class));
                 break;
             case R.id.cardView_02:
-                startActivity(new Intent(getActivity(), TestActivity.class));
+                startActivity(new Intent(getActivity(), VideoActivity.class));
                 break;
             case R.id.cardView_03:
                 startActivity(new Intent(getActivity(), ViewActivity.class));
