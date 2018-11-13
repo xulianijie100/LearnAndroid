@@ -188,6 +188,7 @@ public class AsyncActivity extends BaseActivity {
         }).start();
 
 
+        new MyAsyncTask().execute();
 
     }
 
@@ -210,17 +211,49 @@ public class AsyncActivity extends BaseActivity {
     }
 
     public void handleMessage(Message msg) {
-        switch (msg.what) {
-            case 101:
-                break;
-            default:
-                break;
-        }
     }
+
+
     /**
-     * -----------------------------------------------------------------------------------------------------------------
+     * Params:启动任务时输入的参数类型.
+       Progress:后台任务执行中返回进度值的类型.
+       Result:后台任务执行完成后返回结果的类型.
      */
 
+    private class MyAsyncTask extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e(TAG,"-----> onPreExecute");
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            Log.e(TAG,"-----> doInBackground");
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return "test AsyncTask";
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Log.e(TAG,"-----> onProgressUpdate"+values);
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e(TAG,"-----> onPostExecute"+s);
+        }
+    }
 
     @Override
     protected void onDestroy() {
