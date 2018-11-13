@@ -49,6 +49,9 @@
         <activity
             android:name=".activity.TestFunActivity"
             android:configChanges="orientation" />
+        <activity
+                android:name=".activity.SortingActivity"
+                android:configChanges="orientation" />
     </application>
 
 </manifest>

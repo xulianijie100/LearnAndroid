@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.hy.android.Base.BaseActivity;
 import com.hy.android.R;
 
+import org.greenrobot.eventbus.EventBus;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -238,7 +239,7 @@ public class AsyncActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-            return "test AsyncTask";
+            return "AsyncTask";
         }
 
         @Override
@@ -251,7 +252,7 @@ public class AsyncActivity extends BaseActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e(TAG,"-----> onPostExecute"+s);
+            Log.e(TAG,"-----> onPostExecute  "+s);
         }
     }
 
