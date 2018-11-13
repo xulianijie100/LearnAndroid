@@ -133,7 +133,6 @@ public class VideoActivity extends BaseActivity {
     protected void initData() {
         writeObj();
         readObj();
-        testHandler();
     }
 
     //序列化
@@ -171,103 +170,6 @@ public class VideoActivity extends BaseActivity {
         }
     }
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 100:
-                    String text = (String) msg.obj;
-                    Log.e("---", text);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void testHandler() {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Message message = mHandler.obtainMessage();
-                message.what = 100;
-                message.obj = "hello";
-                mHandler.sendMessage(message);
-            }
-        }.start();
-
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                @SuppressLint("HandlerLeak")
-                Handler handler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                    }
-                };
-                Looper.loop();
-            }
-        }).start();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Handler handler = new Handler(Looper.getMainLooper()) {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                    }
-                };
-            }
-        }).start();
-
-    }
-
-    public Handler handler;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        this.handler = new ActivityHandler(this);
-    }
-
-    private static class ActivityHandler extends Handler {
-        private final WeakReference<VideoActivity> mActivity;
-
-        public ActivityHandler(VideoActivity activity) {
-            this.mActivity = new WeakReference(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (this.mActivity != null) {
-                VideoActivity activity = this.mActivity.get();
-                if (activity != null && !activity.isFinishing()) {
-                    activity.handleMessage(msg);
-                }
-            }
-        }
-    }
-
-    public void handleMessage(Message msg) {
-        switch (msg.what) {
-            case 101:
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -285,9 +187,4 @@ public class VideoActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
-    }
 }

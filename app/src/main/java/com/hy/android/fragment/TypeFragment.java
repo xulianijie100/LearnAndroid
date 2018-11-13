@@ -6,11 +6,8 @@ import android.view.View;
 
 import com.hy.android.Base.BaseFragment;
 import com.hy.android.R;
-import com.hy.android.activity.AnimationActivity;
-import com.hy.android.activity.RxJavaActivity;
-import com.hy.android.activity.VideoActivity;
-import com.hy.android.activity.TestFunActivity;
-import com.hy.android.activity.ViewActivity;
+import com.hy.android.activity.*;
+import com.hy.android.activity.AsyncActivity;
 
 public class TypeFragment extends BaseFragment implements View.OnClickListener {
 
@@ -47,7 +44,7 @@ public class TypeFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardView_01:
-                startActivity(new Intent(getActivity(), RxJavaActivity.class));
+                startActivity(new Intent(getActivity(), AsyncActivity.class));
                 break;
             case R.id.cardView_02:
                 startActivity(new Intent(getActivity(), VideoActivity.class));

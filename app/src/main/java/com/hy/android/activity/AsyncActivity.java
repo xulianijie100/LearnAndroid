@@ -1,5 +1,7 @@
 package com.hy.android.activity;
 
+import android.annotation.SuppressLint;
+import android.os.*;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,9 +20,13 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class RxJavaActivity extends BaseActivity {
+import java.lang.ref.WeakReference;
 
-    private static final String TAG = "RxJavaActivity";
+public class AsyncActivity extends BaseActivity {
+
+    private static final String TAG = "AsyncActivity";
+
+    public Handler myHandler;
 
     @Override
     public int bindLayout() {
@@ -29,6 +35,7 @@ public class RxJavaActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        this.myHandler = new ActivityHandler(this);
         initToolbar();
     }
 
@@ -36,8 +43,13 @@ public class RxJavaActivity extends BaseActivity {
     protected void initData() {
         test1();
         test2();
+        testHandler();
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * RxJava
+     */
     private void test1() {
         Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
@@ -107,6 +119,114 @@ public class RxJavaActivity extends BaseActivity {
                 });
     }
 
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * handler
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    String text = (String) msg.obj;
+                    Log.e(TAG, "---"+text);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void testHandler() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Message message = mHandler.obtainMessage();
+                message.what = 100;
+                message.obj = "hello";
+                mHandler.sendMessage(message);
+            }
+        }.start();
+
+
+        //子线程创建handler,需要创建looper
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                @SuppressLint("HandlerLeak")
+                Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                    }
+                };
+                Looper.loop();
+            }
+        }).start();
+
+        //将主线程的looper传进来
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Handler handler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                    }
+                };
+            }
+        }).start();
+
+
+
+    }
+
+    private static class ActivityHandler extends Handler {
+        private final WeakReference<AsyncActivity> mActivity;
+
+        public ActivityHandler(AsyncActivity activity) {
+            this.mActivity = new WeakReference(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (this.mActivity != null) {
+                AsyncActivity activity = this.mActivity.get();
+                if (activity != null && !activity.isFinishing()) {
+                    activity.handleMessage(msg);
+                }
+            }
+        }
+    }
+
+    public void handleMessage(Message msg) {
+        switch (msg.what) {
+            case 101:
+                break;
+            default:
+                break;
+        }
+    }
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

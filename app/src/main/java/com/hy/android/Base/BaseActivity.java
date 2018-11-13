@@ -3,9 +3,12 @@ package com.hy.android.Base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.hy.android.utils.AppManager;
@@ -13,12 +16,15 @@ import com.hy.android.utils.AppManager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by Administrator on 2018/4/3.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
     private Unbinder bind;
+    public Handler mHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         AppManager.getAppManager().addActivity(this);
         initView();
         initData();
+        this.mHandler = new ActivityHandler(this);
     }
 
     /**
@@ -69,5 +76,25 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         AppManager.getAppManager().finishActivity(this);
         bind.unbind();
+    }
+
+    public void handleMessage(Message msg) {
+    }
+
+    private static class ActivityHandler extends Handler {
+        WeakReference<BaseActivity> mRefActivity;
+
+        private ActivityHandler(BaseActivity activity) {
+            this.mRefActivity = new WeakReference(activity);
+        }
+
+        public void handleMessage(Message msg) {
+            if (this.mRefActivity != null) {
+                BaseActivity activity = (BaseActivity)this.mRefActivity.get();
+                if (activity != null && !activity.isFinishing()) {
+                    activity.handleMessage(msg);
+                }
+            }
+        }
     }
 }
