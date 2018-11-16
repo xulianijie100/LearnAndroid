@@ -56,15 +56,18 @@ public class VideoActivity extends BaseActivity {
         // PlayerJNI player=new PlayerJNI();
         // PlayerJNI.funFromJava(player,"1000");
 
-        PlayerJNI.start();
-
-        initGLView();
+        int res= PlayerJNI.start();
+        if (res==0) {
+            initGLView();
+        }
 
         tv_decoder=findViewById(R.id.tv_decoder);
         tv_decoder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mGLView.requestRender();
+                if(mGLView!=null){
+                    mGLView.requestRender();
+                }
             }
         });
 

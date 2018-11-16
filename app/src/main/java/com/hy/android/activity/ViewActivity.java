@@ -3,13 +3,29 @@ package com.hy.android.activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
+import android.widget.RelativeLayout;
+import butterknife.BindView;
 import com.hy.android.Base.BaseActivity;
 import com.hy.android.R;
+import com.hy.android.bean.PieData;
+import com.hy.android.view.CanvasView;
+import com.hy.android.view.PathView;
+import com.hy.android.view.PieView;
+
+import java.util.ArrayList;
 
 public class ViewActivity extends BaseActivity {
 
+    @BindView(R.id.layout_content1)
+    RelativeLayout relativeLayout1;
 
+    @BindView(R.id.layout_content2)
+    RelativeLayout relativeLayout2;
+
+    @BindView(R.id.layout_content3)
+    RelativeLayout relativeLayout3;
+
+    private PieView pieView;
 
     @Override
     public int bindLayout() {
@@ -19,10 +35,26 @@ public class ViewActivity extends BaseActivity {
     @Override
     public void initView() {
         initToolbar();
+        pieView = new PieView(this);
+        relativeLayout1.addView(pieView);
+        relativeLayout2.addView(new CanvasView(this));
+        relativeLayout3.addView(new PathView(this));
     }
 
     @Override
     protected void initData() {
+        ArrayList<PieData> datas = new ArrayList<>();
+        PieData pieData = new PieData("PieView", 60);
+        PieData pieData2 = new PieData("PieView", 30);
+        PieData pieData3 = new PieData("PieView", 40);
+        PieData pieData4 = new PieData("PieView", 20);
+        PieData pieData5 = new PieData("PieView", 20);
+        datas.add(pieData);
+        datas.add(pieData2);
+        datas.add(pieData3);
+        datas.add(pieData4);
+        datas.add(pieData5);
+        pieView.setData(datas);
 
     }
 

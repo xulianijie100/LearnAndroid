@@ -28,7 +28,7 @@ public class PlayerJNI {
 
     public static native void funFromJava(Object obj,String id);
 
-    public static native void start();
+    public static native int start();
     public static native int input(byte[] data);
     public static native int output(byte[] data);
     public static native int get(int key);
