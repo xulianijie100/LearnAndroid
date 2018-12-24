@@ -35,7 +35,7 @@ public class TypeFragment extends BaseFragment  {
     protected void initView() {
         List<String> list=new ArrayList<>();
         list.add("Handler+AsyncTask");
-        list.add("cmake");
+        list.add("Serializable");
         list.add("自定义View");
         list.add("View 动画");
         list.add("Java 开发模式");
