@@ -9,10 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hy.android.Base.BaseFragment;
+import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.ArticleDetailActivity;
 import com.hy.android.adapter.HomeAdapter;
@@ -30,9 +29,7 @@ import com.youth.banner.Transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**

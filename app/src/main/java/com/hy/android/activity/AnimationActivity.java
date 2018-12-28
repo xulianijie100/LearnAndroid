@@ -2,6 +2,7 @@ package com.hy.android.activity;
 
 import android.animation.ValueAnimator;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,7 +17,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.hy.android.Base.BaseActivity;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 
 public class AnimationActivity extends BaseActivity {
@@ -26,12 +28,17 @@ public class AnimationActivity extends BaseActivity {
             btn_06, btn_07, btn_08, btn_09, btn_10,btn_11;
 
     @Override
-    public int bindLayout() {
+    public int getContentLayout() {
         return R.layout.activity_animation;
     }
 
     @Override
-    public void initView() {
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
         img_01 = findViewById(R.id.img_01);
         img_01.setImageResource(R.drawable.anim1);
         AnimationDrawable anim = (AnimationDrawable) img_01.getDrawable();  //逐帧动画
@@ -212,9 +219,12 @@ public class AnimationActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         initToolbar();
     }
+
+    @Override
+    public void onRetry() { }
 
 
     private void initToolbar() {

@@ -9,12 +9,14 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.hy.android.Base.BaseActivity;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.utils.CommonUtils;
 import com.hy.android.utils.Constants;
@@ -35,12 +37,17 @@ public class ArticleDetailActivity extends BaseActivity {
     private String articleLink;
     private String title;
     @Override
-    public int bindLayout() {
+    public int getContentLayout() {
         return R.layout.activity_detail_webview;
     }
 
     @Override
-    public void initView() {
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void  bindView(View view, Bundle savedInstanceState) {
         initToolBar();
 
         mAgentWeb = AgentWeb.with(this)
@@ -98,8 +105,11 @@ public class ArticleDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
     }
+
+    @Override
+    public void onRetry() { }
 
     public static void startActivity(Context context, String title, String url) {
         Intent intent = new Intent(context, ArticleDetailActivity.class);

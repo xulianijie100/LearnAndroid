@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hy.android.Base.BaseApplication;
+import com.hy.android.base.BaseApplication;
 import com.hy.android.R;
 
 import java.io.BufferedReader;

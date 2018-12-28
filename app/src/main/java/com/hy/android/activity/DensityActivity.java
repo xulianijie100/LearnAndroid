@@ -1,6 +1,9 @@
 package com.hy.android.activity;
 
-import com.hy.android.Base.BaseActivity;
+import android.os.Bundle;
+import android.view.View;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 
 /**
  * 屏幕适配
@@ -10,17 +13,27 @@ public class DensityActivity extends BaseActivity{
 
 
     @Override
-    public int bindLayout() {
+    public void onRetry() {
+
+    }
+
+    @Override
+    public int getContentLayout() {
         return 0;
     }
 
     @Override
-    public void initView() {
+    public void initInjector(ApplicationComponent appComponent) {
 
     }
 
     @Override
-    protected void initData() {
+    public void bindView(View view, Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void initData() {
 
     }
 }

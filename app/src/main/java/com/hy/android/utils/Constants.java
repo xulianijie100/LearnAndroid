@@ -10,4 +10,7 @@ public abstract class Constants {
     public static final String STATE_NO_IMAGE = "no_image";
     public static final String ARTICLE_TITLE = "article_title";
     public static final String ARTICLE_URL = "article_url";
+
+
+    public static final String uid = "864678036850608";
 }

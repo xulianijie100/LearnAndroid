@@ -67,7 +67,7 @@ public class ASCrashHandler implements Thread.UncaughtExceptionHandler {
                 mLock.tryLock();
                 String logPath;
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    logPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + File.separator + "SuperSMS";
+                    logPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + File.separator + "HyLog";
 
                     File file = new File(logPath);
                     if (!file.exists()) {

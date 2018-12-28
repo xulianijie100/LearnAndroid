@@ -1,11 +1,14 @@
 package com.hy.android.activity;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 import butterknife.BindView;
-import com.hy.android.Base.BaseActivity;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.bean.PieData;
 import com.hy.android.view.CanvasView;
@@ -28,12 +31,17 @@ public class ViewActivity extends BaseActivity {
     private PieView pieView;
 
     @Override
-    public int bindLayout() {
+    public int getContentLayout() {
         return R.layout.activity_view;
     }
 
     @Override
-    public void initView() {
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
         initToolbar();
         pieView = new PieView(this);
         relativeLayout1.addView(pieView);
@@ -42,7 +50,7 @@ public class ViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         ArrayList<PieData> datas = new ArrayList<>();
         PieData pieData = new PieData("PieView", 60);
         PieData pieData2 = new PieData("PieView", 30);
@@ -78,5 +86,10 @@ public class ViewActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRetry() {
+
     }
 }

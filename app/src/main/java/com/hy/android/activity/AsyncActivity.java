@@ -7,10 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.hy.android.Base.BaseActivity;
+import android.view.View;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 
-import org.greenrobot.eventbus.EventBus;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -30,18 +31,23 @@ public class AsyncActivity extends BaseActivity {
     public Handler myHandler;
 
     @Override
-    public int bindLayout() {
+    public int getContentLayout() {
         return R.layout.activity_rx;
     }
 
     @Override
-    public void initView() {
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
         this.myHandler = new ActivityHandler(this);
         initToolbar();
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         test1();
         test2();
         testHandler();
@@ -190,6 +196,11 @@ public class AsyncActivity extends BaseActivity {
 
 
         new MyAsyncTask().execute();
+
+    }
+
+    @Override
+    public void onRetry() {
 
     }
 

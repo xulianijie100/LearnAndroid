@@ -1,20 +1,15 @@
 package com.hy.android.activity;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import com.hy.android.Base.BaseActivity;
+import android.view.View;
+import com.hy.android.Component.ApplicationComponent;
 import com.hy.android.R;
+import com.hy.android.base.BaseActivity;
 
 public class SortingActivity extends BaseActivity {
-    @Override
-    public int bindLayout() {
-        return R.layout.activity_rx;
-    }
 
-    @Override
-    public void initView() {
-        initToolbar();
-    }
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -25,8 +20,29 @@ public class SortingActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
     @Override
-    protected void initData() {
+    public int getContentLayout() {
+        return R.layout.activity_rx;
+    }
+
+    @Override
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
+        initToolbar();
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void onRetry() {
 
     }
 }

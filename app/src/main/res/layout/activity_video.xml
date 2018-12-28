@@ -24,17 +24,4 @@
             tools:text="test" />
 
     </android.support.design.widget.AppBarLayout>
-
-
-    <android.opengl.GLSurfaceView
-        android:id="@+id/mGLView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
-
-    <TextView
-        android:id="@+id/tv_decoder"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="45dp"
-        android:text="decoder"/>
 </LinearLayout>

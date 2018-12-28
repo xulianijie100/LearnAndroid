@@ -1,6 +1,6 @@
 package com.hy.android.net;
 
-import com.hy.android.Base.BaseApplication;
+import com.hy.android.base.BaseApplication;
 import com.hy.android.net.cookies.CookiesManager;
 import com.hy.android.utils.CommonUtils;
 

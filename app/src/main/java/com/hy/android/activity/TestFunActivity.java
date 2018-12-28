@@ -1,11 +1,14 @@
 package com.hy.android.activity;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.hy.android.Base.BaseActivity;
+import android.view.View;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.model.BikeStrategy;
 import com.hy.android.model.Observable;
@@ -19,17 +22,22 @@ public class TestFunActivity  extends BaseActivity{
     private static final String TAG = "TestFunActivity";
 
     @Override
-    public int bindLayout() {
+    public int getContentLayout() {
         return R.layout.activity_view;
     }
 
     @Override
-    public void initView() {
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
         initToolbar();
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
         //---------------------观察者模式-------------------------------
 
@@ -88,5 +96,10 @@ public class TestFunActivity  extends BaseActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRetry() {
+
     }
 }

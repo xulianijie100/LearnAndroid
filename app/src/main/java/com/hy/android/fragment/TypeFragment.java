@@ -1,14 +1,12 @@
 package com.hy.android.fragment;
 
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
-import butterknife.OnClick;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hy.android.Base.BaseFragment;
+import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.*;
 import com.hy.android.adapter.FuncAdapter;

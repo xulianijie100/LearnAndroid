@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.hy.android.Base.BaseApplication;
+import com.hy.android.base.BaseApplication;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

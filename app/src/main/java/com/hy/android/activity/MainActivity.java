@@ -1,5 +1,6 @@
 package com.hy.android.activity;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -12,33 +13,46 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.hy.android.Base.BaseActivity;
+import android.view.View;
+import butterknife.BindView;
+import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
-    private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private BottomNavigationView bottomNavigation;
+
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.navigationView)
+    NavigationView navigationView;
+
+    @BindView(R.id.bottomNavigation)
+    BottomNavigationView bottomNavigation;
+
     private HomeFragment homeFragment;
     private TypeFragment typeFragment;
     private Fragment[] fragments;
     private int lastShowFragment = 0;
 
     @Override
-    public int bindLayout() {
+    public int getContentLayout() {
         return R.layout.activity_main;
     }
 
     @Override
-    public void initView() {
-        toolbar = viewById(R.id.toolbar);
-        drawerLayout = viewById(R.id.drawerLayout);
-        navigationView = viewById(R.id.navigationView);
-        bottomNavigation = viewById(R.id.bottomNavigation);
+    public void initInjector(ApplicationComponent appComponent) {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
         initToolbar();
         initDrawerLayout();
         initBottomNavigation();
@@ -118,7 +132,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
     }
 
@@ -136,5 +150,10 @@ public class MainActivity extends BaseActivity {
         }
 
         transaction.show(fragments[index]).commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onRetry() {
+
     }
 }
