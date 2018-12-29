@@ -3,17 +3,11 @@ package com.hy.android.net;
 import com.hy.android.bean.BannerData;
 import com.hy.android.bean.BaseResponse;
 import com.hy.android.bean.HomeDataList;
-
-import java.util.List;
-
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
-/**
- * Created by Administrator on 2018/4/17.
- */
+import java.util.List;
 
 public interface ApiService {
 
@@ -31,6 +25,7 @@ public interface ApiService {
 
     /**
      * http://www.wanandroid.com/article/list/0/json
+     *
      * @return 首页数据
      */
     @GET("/article/list/{page}/json")

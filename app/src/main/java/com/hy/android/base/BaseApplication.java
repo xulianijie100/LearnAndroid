@@ -7,12 +7,10 @@ import com.hy.android.Component.DaggerApplicationComponent;
 import com.hy.android.module.ApplicationModule;
 import com.hy.android.module.HttpModule;
 import com.hy.android.utils.ASCrashHandler;
+import org.litepal.LitePal;
+import org.litepal.LitePalApplication;
 
-/**
- * Created by Administrator on 2018/4/3.
- */
-
-public class BaseApplication extends Application {
+public class BaseApplication extends LitePalApplication {
     private static BaseApplication instance;
     private ApplicationComponent mApplicationComponent;
     @Override
@@ -29,6 +27,7 @@ public class BaseApplication extends Application {
         ASCrashHandler.getInstance().init(this);
         //腾讯Bugly异常上报
        // CrashReport.initCrashReport(getApplicationContext(), "210de28226", false);
+        LitePal.initialize(this);
     }
 
     public static BaseApplication getInstance() {

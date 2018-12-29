@@ -28,3 +28,8 @@
 -keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
      <init>(...);
 }
+
+
+-keep class org.litepal.** {*;}
+
+-keep class * extends org.litepal.crud.LitePalSupport{*;}
