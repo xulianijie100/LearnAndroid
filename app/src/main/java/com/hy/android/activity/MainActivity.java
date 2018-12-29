@@ -1,5 +1,6 @@
 package com.hy.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,6 +21,7 @@ import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
+import com.hy.android.news.NewsActivity;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -113,6 +115,9 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_about:
                         Log.e(TAG, "onNavigationItemSelected: 2222");
+                        break;
+                    case R.id.nav_news:
+                        startActivity(new Intent(MainActivity.this, NewsActivity.class));
                         break;
                     default:
                         break;

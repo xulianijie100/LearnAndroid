@@ -59,8 +59,9 @@
 
     <!-- navigation -->
     <string name="my_bookmark">我的书签</string>
-    <string name="my_like">我喜欢的</string>
-    <string name="my_about">关于我们</string>
+    <string name="my_like">收藏</string>
+    <string name="my_news">新闻</string>
+    <string name="my_about">关于</string>
 
     <string name="open_it_with_browser">用系统浏览器打开</string>
 

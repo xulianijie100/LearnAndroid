@@ -1,11 +1,13 @@
 package com.hy.android.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hy.android.Component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.*;
@@ -21,16 +23,21 @@ public class TypeFragment extends BaseFragment  {
     private FuncAdapter mAdapter;
 
     @Override
-    protected int getLayoutId() {
+    public int getContentLayout() {
         return R.layout.fragment_type;
     }
 
     @Override
-    protected void initData() {
+    public void initInjector(ApplicationComponent appComponent) {
+
     }
 
     @Override
-    protected void initView() {
+    public void initData() {
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState) {
         List<String> list=new ArrayList<>();
         list.add("Handler+AsyncTask");
         list.add("Serializable");

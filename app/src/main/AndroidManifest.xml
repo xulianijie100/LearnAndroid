@@ -52,6 +52,9 @@
         <activity
                 android:name=".activity.SortingActivity"
                 android:configChanges="orientation" />
+        <activity
+                android:name=".news.NewsActivity"
+                android:configChanges="orientation" />
     </application>
 
 </manifest>

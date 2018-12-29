@@ -1,4 +1,4 @@
-package com.hy.android.view;
+package com.hy.android.widget;
 
 import android.content.Context;
 import android.graphics.*;

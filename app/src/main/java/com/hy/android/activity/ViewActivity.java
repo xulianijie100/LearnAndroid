@@ -11,9 +11,9 @@ import com.hy.android.Component.ApplicationComponent;
 import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.bean.PieData;
-import com.hy.android.view.CanvasView;
-import com.hy.android.view.PathView;
-import com.hy.android.view.PieView;
+import com.hy.android.widget.CanvasView;
+import com.hy.android.widget.PathView;
+import com.hy.android.widget.PieView;
 
 import java.util.ArrayList;
 

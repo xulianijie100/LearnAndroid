@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hy.android.Component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.ArticleDetailActivity;
@@ -47,27 +48,32 @@ public class HomeFragment extends BaseFragment {
     private Banner mBanner;
 
     @Override
-    protected int getLayoutId() {
+    public int getContentLayout() {
         return R.layout.fragment_home;
     }
 
     @Override
-    protected void initData() {
+    public void initInjector(ApplicationComponent appComponent) {
 
     }
 
     @Override
-    protected void initView() {
+    public void initData() {
+
+    }
+
+    @Override
+    public void bindView(View view, Bundle savedInstanceState){
         homeDatas = new ArrayList<>();
         bannerDatas = new ArrayList<>();
 
-        swipeRefreshLayout = mView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         //banner
         LinearLayout mHeaderGroup = ((LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.home_banner, null));
         mBanner = mHeaderGroup.findViewById(R.id.head_banner);
         mHeaderGroup.removeView(mBanner);
         //list
-        mRecyclerView = mView.findViewById(R.id.recyclerView);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
         mAdapter = new HomeAdapter(R.layout.home_list_item, homeDatas);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.addHeaderView(mBanner);
