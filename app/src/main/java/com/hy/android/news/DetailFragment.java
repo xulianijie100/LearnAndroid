@@ -2,7 +2,7 @@ package com.hy.android.news;
 
 import android.os.Bundle;
 import android.view.View;
-import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.NewsDetail;
 import com.hy.android.news.contract.DetailContract;

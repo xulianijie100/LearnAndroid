@@ -50,7 +50,7 @@ dependencies {
 
     //dagger2
     compile "com.google.dagger:dagger:2.7"
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.7"
 
     implementation "com.airbnb.android:lottie:2.1.0"
     implementation "in.srain.cube:ultra-ptr:1.0.11"

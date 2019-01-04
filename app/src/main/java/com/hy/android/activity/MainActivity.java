@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import android.view.View;
 import butterknife.BindView;
-import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.fragment.HomeFragment;

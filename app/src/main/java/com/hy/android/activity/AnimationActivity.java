@@ -17,7 +17,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 

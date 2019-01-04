@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.ArticleDetailActivity;

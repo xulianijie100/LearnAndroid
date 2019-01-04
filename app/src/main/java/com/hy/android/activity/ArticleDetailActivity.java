@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.utils.CommonUtils;

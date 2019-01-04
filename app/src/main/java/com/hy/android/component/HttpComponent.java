@@ -1,4 +1,4 @@
-package com.hy.android.Component;
+package com.hy.android.component;
 
 import com.hy.android.news.DetailFragment;
 import com.hy.android.news.NewsActivity;

@@ -2,7 +2,7 @@ package com.hy.android.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import com.hy.android.Component.ApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseActivity;
 
 /**

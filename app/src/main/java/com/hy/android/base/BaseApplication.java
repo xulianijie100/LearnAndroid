@@ -1,7 +1,7 @@
 package com.hy.android.base;
 
-import com.hy.android.Component.ApplicationComponent;
-import com.hy.android.Component.DaggerApplicationComponent;
+import com.hy.android.component.ApplicationComponent;
+import com.hy.android.component.DaggerApplicationComponent;
 import com.hy.android.module.ApplicationModule;
 import com.hy.android.module.HttpModule;
 import com.hy.android.utils.ASCrashHandler;

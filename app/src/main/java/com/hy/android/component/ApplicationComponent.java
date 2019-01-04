@@ -1,4 +1,4 @@
-package com.hy.android.Component;
+package com.hy.android.component;
 
 import android.content.Context;
 import com.hy.android.base.BaseApplication;
