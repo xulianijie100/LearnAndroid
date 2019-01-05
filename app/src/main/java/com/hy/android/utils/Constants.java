@@ -1,9 +1,5 @@
 package com.hy.android.utils;
 
-/**
- * Created by Administrator on 2018/4/24.
- */
-
 public abstract class Constants {
 
     public static final String STATE_AUTO_CACHE = "auto_cache";
@@ -13,4 +9,15 @@ public abstract class Constants {
 
 
     public static final String uid = "864678036850608";
+
+    public static final String sIFengApi = "http://api.iclient.ifeng.com/";
+
+    public static final String sJanDanApi = "http://i.jandan.net/";
+
+    public static final String sGetNewsImagesApi = "NewRelativeVideoList";
+
+    public static final String sGetNewsArticleCmppApi = "http://api.3g.ifeng.com/";
+
+    public static final String sGetNewsArticleDocCmppApi = "ipadtestdoc";
+
 }

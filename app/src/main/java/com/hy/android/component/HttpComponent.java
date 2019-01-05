@@ -7,9 +7,8 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class)
 public interface HttpComponent {
 
+    void inject(NewsActivity newsActivity);
 
     void inject(DetailFragment detailFragment);
-
-    void inject(NewsActivity newsActivity);
 
 }

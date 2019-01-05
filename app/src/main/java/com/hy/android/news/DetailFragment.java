@@ -5,6 +5,7 @@ import android.view.View;
 import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.NewsDetail;
+import com.hy.android.component.DaggerHttpComponent;
 import com.hy.android.news.contract.DetailContract;
 import com.hy.android.news.presenter.DetailPresenter;
 
@@ -30,7 +31,10 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
 
     @Override
     public void initInjector(ApplicationComponent appComponent) {
-
+        DaggerHttpComponent.builder()
+                .applicationComponent(appComponent)
+                .build()
+                .inject(this);
     }
 
     @Override

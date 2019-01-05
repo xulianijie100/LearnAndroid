@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 public class NewsApi {
@@ -20,6 +22,21 @@ public class NewsApi {
 
     }
 
+    @Inject
+    public NewsApi(){ }
+
     public static NewsApi sInstance;
+
+    private NewsApiService mService;
+
+    public NewsApi(NewsApiService newsApiService) {
+        this.mService = newsApiService;
+    }
+
+    public static NewsApi getInstance(NewsApiService newsApiService) {
+        if (sInstance == null)
+            sInstance = new NewsApi(newsApiService);
+        return sInstance;
+    }
 
 }
