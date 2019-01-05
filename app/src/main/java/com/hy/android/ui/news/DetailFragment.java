@@ -1,7 +1,10 @@
 package com.hy.android.ui.news;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hy.android.R;
 import com.hy.android.component.ApplicationComponent;
@@ -10,11 +13,37 @@ import com.hy.android.bean.NewsDetail;
 import com.hy.android.component.DaggerHttpComponent;
 import com.hy.android.ui.news.contract.DetailContract;
 import com.hy.android.ui.news.presenter.DetailPresenter;
+import com.hy.android.widget.NewsDelPop;
+import com.youth.banner.Banner;
 
 import java.util.List;
 
+import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+
 public class DetailFragment extends BaseFragment<DetailPresenter> implements DetailContract.View {
 
+
+    @BindView(R.id.mRecyclerView)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.mPtrFrameLayout)
+    PtrFrameLayout mPtrFrameLayout;
+    @BindView(R.id.tv_toast)
+    TextView mTvToast;
+    @BindView(R.id.rl_top_toast)
+    RelativeLayout mRlTopToast;
+
+    private View view_Focus;//顶部banner
+    private Banner mBanner;
+    private NewsDelPop newsDelPop;
+    private String newsid;
+    private int position;
+    private List<NewsDetail.ItemBean> beanList;
+    private List<NewsDetail.ItemBean> mBannerList;
+    private NewsDetailAdapter detailAdapter;
+    private int upPullNum = 1;
+    private int downPullNum = 1;
+    private boolean isRemoveHeaderView = false;
 
     public static DetailFragment newInstance(String newsid, int position) {
         Bundle args = new Bundle();
