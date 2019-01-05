@@ -1,4 +1,4 @@
-package com.hy.android.news.contract;
+package com.hy.android.ui.news.contract;
 
 import com.hy.android.base.BaseContract;
 import com.hy.android.bean.Channel;

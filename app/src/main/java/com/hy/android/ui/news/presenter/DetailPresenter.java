@@ -1,8 +1,8 @@
-package com.hy.android.news.presenter;
+package com.hy.android.ui.news.presenter;
 
 import com.hy.android.base.BasePresenter;
 import com.hy.android.net.NewsApi;
-import com.hy.android.news.contract.DetailContract;
+import com.hy.android.ui.news.contract.DetailContract;
 
 import javax.inject.Inject;
 

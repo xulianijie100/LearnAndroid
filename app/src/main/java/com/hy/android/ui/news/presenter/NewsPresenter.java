@@ -1,11 +1,11 @@
-package com.hy.android.news.presenter;
+package com.hy.android.ui.news.presenter;
 
 import com.hy.android.R;
 import com.hy.android.base.BaseApplication;
 import com.hy.android.base.BasePresenter;
 import com.hy.android.bean.Channel;
 import com.hy.android.database.ChannelDao;
-import com.hy.android.news.contract.NewsContract;
+import com.hy.android.ui.news.contract.NewsContract;
 import org.litepal.LitePal;
 import org.litepal.crud.callback.SaveCallback;
 

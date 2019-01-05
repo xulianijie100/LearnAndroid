@@ -21,7 +21,7 @@ import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
-import com.hy.android.news.NewsActivity;
+import com.hy.android.ui.NewsActivity;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";

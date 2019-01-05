@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.Channel;
-import com.hy.android.news.DetailFragment;
+import com.hy.android.ui.news.DetailFragment;
 
 import java.util.List;
 

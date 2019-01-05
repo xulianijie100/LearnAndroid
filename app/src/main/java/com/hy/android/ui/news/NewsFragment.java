@@ -1,25 +1,25 @@
-package com.hy.android.news;
+package com.hy.android.ui.news;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import butterknife.BindView;
-import butterknife.OnClick;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.component.DaggerHttpComponent;
+
 import com.hy.android.R;
 import com.hy.android.adapter.ChannelPagerAdapter;
-import com.hy.android.base.BaseActivity;
+import com.hy.android.base.BaseFragment;
+import com.hy.android.base.SupportFragment;
 import com.hy.android.bean.Channel;
+import com.hy.android.component.ApplicationComponent;
+import com.hy.android.component.DaggerHttpComponent;
 import com.hy.android.database.ChannelDao;
 import com.hy.android.event.NewChannelEvent;
 import com.hy.android.event.SelectChannelEvent;
-import com.hy.android.news.contract.NewsContract;
-import com.hy.android.news.presenter.NewsPresenter;
+import com.hy.android.ui.news.contract.NewsContract;
+import com.hy.android.ui.news.presenter.NewsPresenter;
 import com.hy.android.widget.CustomViewPager;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -27,9 +27,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsActivity extends BaseActivity<NewsPresenter> implements NewsContract.View {
+import butterknife.BindView;
+import butterknife.OnClick;
 
-    private static final String TAG = "NewsActivity";
+
+public class NewsFragment extends BaseFragment<NewsPresenter> implements NewsContract.View {
+
+    private static final String TAG = "NewsFragment";
 
     @BindView(R.id.viewpager)
     CustomViewPager mViewpager;
@@ -46,10 +50,16 @@ public class NewsActivity extends BaseActivity<NewsPresenter> implements NewsCon
     private int selectedIndex;
     private String selectedChannel;
 
+    public static SupportFragment newInstance() {
+        Bundle args = new Bundle();
+        NewsFragment fragment = new NewsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public int getContentLayout() {
-        return R.layout.activity_news;
+        return R.layout.fragment_news_new;
     }
 
     @Override
@@ -102,13 +112,13 @@ public class NewsActivity extends BaseActivity<NewsPresenter> implements NewsCon
             mSelectedDatas.addAll(channels);
             mUnSelectedDatas.clear();
             mUnSelectedDatas.addAll(unSelectedDatas);
-            mChannelPagerAdapter = new ChannelPagerAdapter(getSupportFragmentManager(), channels);
+            mChannelPagerAdapter = new ChannelPagerAdapter(getChildFragmentManager(), channels);
             mViewpager.setAdapter(mChannelPagerAdapter);
             mViewpager.setOffscreenPageLimit(2);
             mViewpager.setCurrentItem(0, false);
             SlidingTabLayout.setViewPager(mViewpager);
         } else {
-            Log.e(TAG,"数据异常");
+            toast("数据异常");
         }
     }
 
@@ -174,13 +184,13 @@ public class NewsActivity extends BaseActivity<NewsPresenter> implements NewsCon
 
     @OnClick(R.id.iv_edit)
     public void onViewClicked() {
-        //ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(mSelectedDatas, mUnSelectedDatas);
-       // dialogFragment.show(getChildFragmentManager(), "CHANNEL");
+//        ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(mSelectedDatas, mUnSelectedDatas);
+//        dialogFragment.show(getChildFragmentManager(), "CHANNEL");
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        super.onDestroyView();
     }
 }

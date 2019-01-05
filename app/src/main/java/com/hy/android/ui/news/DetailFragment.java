@@ -1,13 +1,15 @@
-package com.hy.android.news;
+package com.hy.android.ui.news;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.hy.android.R;
 import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.NewsDetail;
 import com.hy.android.component.DaggerHttpComponent;
-import com.hy.android.news.contract.DetailContract;
-import com.hy.android.news.presenter.DetailPresenter;
+import com.hy.android.ui.news.contract.DetailContract;
+import com.hy.android.ui.news.presenter.DetailPresenter;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
 
     @Override
     public int getContentLayout() {
-        return 0;
+        return R.layout.fragment_detail;
     }
 
     @Override
