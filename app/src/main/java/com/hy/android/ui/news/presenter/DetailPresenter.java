@@ -18,5 +18,8 @@ public class DetailPresenter extends BasePresenter<DetailContract.View> implemen
 
     @Override
     public void getData(final String id, final String action, int pullNum) {
+
+
+
     }
 }

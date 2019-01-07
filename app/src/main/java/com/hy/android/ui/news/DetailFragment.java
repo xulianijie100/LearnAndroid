@@ -7,10 +7,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hy.android.R;
+import com.hy.android.adapter.NewsDetailAdapter;
 import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.NewsDetail;
 import com.hy.android.component.DaggerHttpComponent;
+import com.hy.android.net.NewsApi;
 import com.hy.android.ui.news.contract.DetailContract;
 import com.hy.android.ui.news.presenter.DetailPresenter;
 import com.hy.android.widget.NewsDelPop;
@@ -71,11 +73,16 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
 
+
+
     }
 
     @Override
     public void initData() {
-
+        if (getArguments() == null) return;
+        newsid = getArguments().getString("newsid");
+        position = getArguments().getInt("position");
+        mPresenter.getData(newsid, NewsApi.ACTION_DEFAULT, 1);
     }
 
     @Override

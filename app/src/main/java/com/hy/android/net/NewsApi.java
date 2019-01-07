@@ -2,6 +2,12 @@ package com.hy.android.net;
 
 import android.support.annotation.StringDef;
 
+import com.hy.android.bean.NewsArticleBean;
+import com.hy.android.bean.NewsDetail;
+import com.hy.android.bean.VideoChannelBean;
+import com.hy.android.bean.VideoDetailBean;
+import com.hy.android.utils.Constants;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
@@ -39,4 +45,54 @@ public class NewsApi {
         return sInstance;
     }
 
+
+    /**
+     * 获取新闻详情
+     *
+     * @param id      频道ID值
+     * @param action  用户操作方式
+     *                1：下拉 down
+     *                2：上拉 up
+     *                3：默认 default
+     * @param pullNum 操作次数 累加
+     * @return
+     */
+    public Observable<List<NewsDetail>> getNewsDetail(String id, @Actions String action, int pullNum) {
+        return mService.getNewsDetail(id, action, pullNum);
+    }
+
+    /**
+     * 获取新闻文章详情
+     * @param aid 文章aid  此处baseurl可能不同，需要特殊处理
+     *          1：aid 以 cmpp 开头则调用 getNewsArticleWithCmpp
+     * @return
+     */
+    public Observable<NewsArticleBean> getNewsArticle(String aid){
+        if (aid.startsWith("sub")){
+            return mService.getNewsArticleWithSub(aid);
+        }else {
+            return mService.getNewsArticleWithCmpp(Constants.sGetNewsArticleCmppApi + Constants.sGetNewsArticleDocCmppApi,aid);
+        }
+    }
+
+    /**
+     * 获取视频频道列表
+     *
+     * @return
+     */
+    public Observable<List<VideoChannelBean>> getVideoChannel(){
+        return mService.getVideoChannel(1);
+    }
+
+    /**
+     * 获取
+     *
+     * @param page
+     * @param listtype
+     * @param typeid
+     * @return
+     */
+    public Observable<List<VideoDetailBean>> getVideoDetail(int page, String listtype, String typeid){
+        return mService.getVideoDetail(page,listtype,typeid);
+    }
 }
