@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
     defaultConfig {
         applicationId "com.hy.android"
         minSdkVersion 19
@@ -10,51 +12,44 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
-
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:cardview-v7:$support_version"
-
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-
     implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
-
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
-    implementation "com.youth.banner:banner:1.4.10"
+    implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.just.agentweb:agentweb:4.0.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
-
-    implementation "com.jakewharton.rxbinding2:rxbinding:2.0.0"
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     implementation 'me.yokeyword:fragmentation:1.3.6'
-
     //dagger2
-    compile "com.google.dagger:dagger:2.7"
+    compile 'com.google.dagger:dagger:2.7'
     annotationProcessor "com.google.dagger:dagger-compiler:2.7"
-
-    implementation "com.airbnb.android:lottie:2.1.0"
-    implementation "in.srain.cube:ultra-ptr:1.0.11"
+    implementation 'com.airbnb.android:lottie:2.1.0'
+    implementation 'in.srain.cube:ultra-ptr:1.0.11'
     implementation 'org.litepal.android:java:3.0.0'
-    implementation "com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar"
-    implementation "com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar"
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'
 }

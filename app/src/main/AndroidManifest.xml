@@ -55,6 +55,13 @@
         <activity
                 android:name=".ui.NewsActivity"
                 android:configChanges="orientation" />
+
+        <activity
+            android:name=".knowledge.MyActivity"
+            android:configChanges="orientation" />
+
+        <activity
+            android:name=".knowledge.OtherActivity" />
     </application>
 
 </manifest>

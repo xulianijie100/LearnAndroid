@@ -21,6 +21,7 @@ import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
 import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
+import com.hy.android.knowledge.MyActivity;
 import com.hy.android.ui.NewsActivity;
 
 public class MainActivity extends BaseActivity {
@@ -114,7 +115,7 @@ public class MainActivity extends BaseActivity {
                         Log.e(TAG, "onNavigationItemSelected: 1111");
                         break;
                     case R.id.nav_about:
-                        Log.e(TAG, "onNavigationItemSelected: 2222");
+                        startActivity(new Intent(MainActivity.this,MyActivity.class));
                         break;
                     case R.id.nav_news:
                         startActivity(new Intent(MainActivity.this, NewsActivity.class));
