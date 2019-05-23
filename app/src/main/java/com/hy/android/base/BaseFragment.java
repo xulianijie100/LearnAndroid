@@ -16,8 +16,6 @@ import com.hy.android.widget.MultiStateView;
 import com.hy.android.widget.SimpleMultiStateView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -29,8 +27,6 @@ public abstract class BaseFragment<T1 extends BaseContract.BasePresenter> extend
     protected Dialog mLoadingDialog = null;
     Unbinder unbinder;
 
-    @Nullable
-    @Inject
     protected T1 mPresenter;
 
     @Nullable
@@ -63,7 +59,6 @@ public abstract class BaseFragment<T1 extends BaseContract.BasePresenter> extend
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initInjector(BaseApplication.getInstance().getApplicationComponent());
         attachView();
         bindView(view, savedInstanceState);
         initStateView();

@@ -5,20 +5,27 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import butterknife.BindView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
-import com.hy.android.activity.*;
+import com.hy.android.activity.AnimationActivity;
+import com.hy.android.activity.AsyncActivity;
+import com.hy.android.activity.SortingActivity;
+import com.hy.android.activity.TestFunActivity;
+import com.hy.android.activity.VideoActivity;
+import com.hy.android.activity.ViewActivity;
 import com.hy.android.adapter.FuncAdapter;
+import com.hy.android.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeFragment extends BaseFragment  {
+import butterknife.BindView;
 
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+public class TypeFragment extends BaseFragment {
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     private FuncAdapter mAdapter;
 
@@ -28,17 +35,12 @@ public class TypeFragment extends BaseFragment  {
     }
 
     @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
-    }
-
-    @Override
     public void initData() {
     }
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
-        List<String> list=new ArrayList<>();
+        List<String> list = new ArrayList<>();
         list.add("Handler+AsyncTask");
         list.add("Serializable");
         list.add("自定义View");
@@ -46,7 +48,7 @@ public class TypeFragment extends BaseFragment  {
         list.add("Java 开发模式");
         list.add("Java 排序");
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter=new FuncAdapter(R.layout.func_list_item,list);
+        mAdapter = new FuncAdapter(R.layout.func_list_item, list);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

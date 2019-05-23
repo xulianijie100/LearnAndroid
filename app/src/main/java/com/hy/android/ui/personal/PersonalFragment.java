@@ -6,7 +6,6 @@ import android.view.View;
 import com.hy.android.R;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.base.SupportFragment;
-import com.hy.android.component.ApplicationComponent;
 
 public class PersonalFragment extends BaseFragment {
 
@@ -22,10 +21,6 @@ public class PersonalFragment extends BaseFragment {
         return R.layout.fragment_news_new;
     }
 
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
-    }
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {

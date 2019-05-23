@@ -1,19 +1,24 @@
 package com.hy.android.activity;
 
 import android.annotation.SuppressLint;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-
 import android.view.View;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseActivity;
+
 import com.hy.android.R;
+import com.hy.android.base.BaseActivity;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
+import java.lang.ref.WeakReference;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -21,8 +26,6 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-
-import java.lang.ref.WeakReference;
 
 public class AsyncActivity extends BaseActivity {
 
@@ -33,11 +36,6 @@ public class AsyncActivity extends BaseActivity {
     @Override
     public int getContentLayout() {
         return R.layout.activity_rx;
-    }
-
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
     }
 
     @Override
@@ -98,6 +96,7 @@ public class AsyncActivity extends BaseActivity {
         Flowable.range(0, 10)
                 .subscribe(new Subscriber<Integer>() {
                     Subscription sub;
+
                     //当订阅后，会首先调用这个方法，其实就相当于onStart()，
                     //传入的Subscription s参数可以用于请求数据或者取消订阅
                     @Override
@@ -139,7 +138,7 @@ public class AsyncActivity extends BaseActivity {
             switch (msg.what) {
                 case 100:
                     String text = (String) msg.obj;
-                    Log.e(TAG, "---"+text);
+                    Log.e(TAG, "---" + text);
                     break;
                 default:
                     break;
@@ -228,21 +227,21 @@ public class AsyncActivity extends BaseActivity {
 
     /**
      * Params:启动任务时输入的参数类型.
-       Progress:后台任务执行中返回进度值的类型.
-       Result:后台任务执行完成后返回结果的类型.
+     * Progress:后台任务执行中返回进度值的类型.
+     * Result:后台任务执行完成后返回结果的类型.
      */
 
-    private class MyAsyncTask extends AsyncTask<String,Integer,String>{
+    private class MyAsyncTask extends AsyncTask<String, Integer, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.e(TAG,"-----> onPreExecute");
+            Log.e(TAG, "-----> onPreExecute");
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            Log.e(TAG,"-----> doInBackground");
+            Log.e(TAG, "-----> doInBackground");
 
             try {
                 Thread.sleep(2000);
@@ -256,14 +255,14 @@ public class AsyncActivity extends BaseActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            Log.e(TAG,"-----> onProgressUpdate"+values);
+            Log.e(TAG, "-----> onProgressUpdate" + values);
 
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e(TAG,"-----> onPostExecute  "+s);
+            Log.e(TAG, "-----> onPostExecute  " + s);
         }
     }
 

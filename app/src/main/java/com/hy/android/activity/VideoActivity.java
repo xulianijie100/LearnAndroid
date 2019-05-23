@@ -6,23 +6,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseActivity;
+
 import com.hy.android.R;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.bean.User;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class VideoActivity extends BaseActivity {
 
     @Override
     public int getContentLayout() {
         return R.layout.activity_video;
-    }
-
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
     }
 
     @Override

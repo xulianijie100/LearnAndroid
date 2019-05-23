@@ -8,10 +8,8 @@ import android.widget.TextView;
 
 import com.hy.android.R;
 import com.hy.android.adapter.NewsDetailAdapter;
-import com.hy.android.component.ApplicationComponent;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.NewsDetail;
-import com.hy.android.component.DaggerHttpComponent;
 import com.hy.android.net.NewsApi;
 import com.hy.android.ui.news.contract.DetailContract;
 import com.hy.android.ui.news.presenter.DetailPresenter;
@@ -62,17 +60,9 @@ public class DetailFragment extends BaseFragment<DetailPresenter> implements Det
         return R.layout.fragment_detail;
     }
 
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-        DaggerHttpComponent.builder()
-                .applicationComponent(appComponent)
-                .build()
-                .inject(this);
-    }
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
-
 
 
     }

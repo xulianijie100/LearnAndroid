@@ -15,9 +15,8 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseActivity;
 import com.hy.android.R;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.utils.CommonUtils;
 import com.hy.android.utils.Constants;
 import com.hy.android.utils.SpUtil;
@@ -36,18 +35,14 @@ public class ArticleDetailActivity extends BaseActivity {
     private AgentWeb mAgentWeb;
     private String articleLink;
     private String title;
+
     @Override
     public int getContentLayout() {
         return R.layout.activity_detail_webview;
     }
 
     @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
-    }
-
-    @Override
-    public void  bindView(View view, Bundle savedInstanceState) {
+    public void bindView(View view, Bundle savedInstanceState) {
         initToolBar();
 
         mAgentWeb = AgentWeb.with(this)
@@ -109,7 +104,8 @@ public class ArticleDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void onRetry() { }
+    public void onRetry() {
+    }
 
     public static void startActivity(Context context, String title, String url) {
         Intent intent = new Intent(context, ArticleDetailActivity.class);

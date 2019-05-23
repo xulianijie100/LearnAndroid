@@ -18,7 +18,6 @@ import com.hy.android.utils.DialogHelper;
 import com.hy.android.widget.SimpleMultiStateView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
-import javax.inject.Inject;
 import java.lang.ref.WeakReference;
 
 public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extends SupportActivity implements IBase, BaseContract.BaseView {
@@ -27,8 +26,6 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
     protected View mRootView;
     protected Dialog mLoadingDialog = null;
 
-    @Nullable
-    @Inject
     protected T1 mPresenter;
 
     @Nullable
@@ -41,7 +38,6 @@ public abstract class BaseActivity<T1 extends BaseContract.BasePresenter> extend
         mRootView = createView(null, null, savedInstanceState);
         AppManager.getAppManager().addActivity(this);
         setContentView(mRootView);
-        initInjector(BaseApplication.getInstance().getApplicationComponent());
         attachView();
         bindView(mRootView, savedInstanceState);
         initData();

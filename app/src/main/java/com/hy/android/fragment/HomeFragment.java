@@ -11,11 +11,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseFragment;
 import com.hy.android.R;
 import com.hy.android.activity.ArticleDetailActivity;
 import com.hy.android.adapter.HomeAdapter;
+import com.hy.android.base.BaseFragment;
 import com.hy.android.bean.BannerData;
 import com.hy.android.bean.BaseResponse;
 import com.hy.android.bean.HomeData;
@@ -53,17 +52,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
-    }
-
-    @Override
     public void initData() {
 
     }
 
     @Override
-    public void bindView(View view, Bundle savedInstanceState){
+    public void bindView(View view, Bundle savedInstanceState) {
         homeDatas = new ArrayList<>();
         bannerDatas = new ArrayList<>();
 
@@ -81,10 +75,10 @@ public class HomeFragment extends BaseFragment {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                int page = mAdapter.getData().size()/ 20 + 1;
-                 getHomeList(page);
+                int page = mAdapter.getData().size() / 20 + 1;
+                getHomeList(page);
             }
-        },mRecyclerView);
+        }, mRecyclerView);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -149,7 +143,9 @@ public class HomeFragment extends BaseFragment {
 
                             int total = response.getData().total;
 
-                            if(total==0){return;}
+                            if (total == 0) {
+                                return;
+                            }
 
                             if (total < response.getData().size) {
                                 mAdapter.replaceData(response.getData().datas);
@@ -159,7 +155,7 @@ public class HomeFragment extends BaseFragment {
                                 return;
                             }
 
-                            Log.e("data==",total+"--"+response.getData().size);
+                            Log.e("data==", total + "--" + response.getData().size);
 
                             if (response.getData().offset >= total || response.getData().size >= total) {
                                 mAdapter.loadMoreEnd();

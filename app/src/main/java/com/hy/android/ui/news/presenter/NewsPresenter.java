@@ -6,18 +6,18 @@ import com.hy.android.base.BasePresenter;
 import com.hy.android.bean.Channel;
 import com.hy.android.database.ChannelDao;
 import com.hy.android.ui.news.contract.NewsContract;
+
 import org.litepal.LitePal;
 import org.litepal.crud.callback.SaveCallback;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class NewsPresenter extends BasePresenter<NewsContract.View> implements NewsContract.Presenter {
-    @Inject
-    public NewsPresenter() { }
+    public NewsPresenter() {
+    }
 
     @Override
     public void getChannel() {

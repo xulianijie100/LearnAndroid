@@ -6,7 +6,6 @@ import android.view.View;
 import com.hy.android.R;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.base.SupportFragment;
-import com.hy.android.component.ApplicationComponent;
 
 public class VideoFragment extends BaseFragment {
 
@@ -20,11 +19,6 @@ public class VideoFragment extends BaseFragment {
     @Override
     public int getContentLayout() {
         return R.layout.fragment_news_new;
-    }
-
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
     }
 
     @Override

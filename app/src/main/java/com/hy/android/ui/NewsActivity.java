@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 import com.hy.android.R;
 import com.hy.android.base.BaseActivity;
 import com.hy.android.base.SupportFragment;
-import com.hy.android.component.ApplicationComponent;
 import com.hy.android.ui.jandan.JanDanFragment;
 import com.hy.android.ui.news.NewsFragment;
 import com.hy.android.ui.personal.PersonalFragment;
@@ -28,16 +27,11 @@ public class NewsActivity extends BaseActivity {
 
     private SupportFragment[] mFragments = new SupportFragment[4];
 
-
     @Override
     public int getContentLayout() {
         return R.layout.activity_news;
     }
 
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
-    }
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {

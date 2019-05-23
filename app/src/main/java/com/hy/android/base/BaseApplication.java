@@ -1,26 +1,17 @@
 package com.hy.android.base;
 
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.component.DaggerApplicationComponent;
-import com.hy.android.module.ApplicationModule;
-import com.hy.android.module.HttpModule;
 import com.hy.android.utils.ASCrashHandler;
+
 import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
 
 public class BaseApplication extends LitePalApplication {
     private static BaseApplication instance;
-    private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-
-        mApplicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .httpModule(new HttpModule())
-                .build();
 
         //出现异常时，将异常保存到本地日志（/HyLog/errorlog.log）
         ASCrashHandler.getInstance().init(this);
@@ -33,7 +24,4 @@ public class BaseApplication extends LitePalApplication {
         return instance;
     }
 
-    public ApplicationComponent getApplicationComponent() {
-        return mApplicationComponent;
-    }
 }

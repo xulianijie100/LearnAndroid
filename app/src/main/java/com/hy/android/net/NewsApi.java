@@ -12,8 +12,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 
 public class NewsApi {
@@ -22,14 +20,11 @@ public class NewsApi {
     public static final String ACTION_DOWN = "down";
     public static final String ACTION_UP = "up";
 
-    @StringDef({ACTION_DEFAULT,ACTION_DOWN,ACTION_UP})
+    @StringDef({ACTION_DEFAULT, ACTION_DOWN, ACTION_UP})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface Actions{
+    public @interface Actions {
 
     }
-
-    @Inject
-    public NewsApi(){ }
 
     public static NewsApi sInstance;
 
@@ -63,15 +58,16 @@ public class NewsApi {
 
     /**
      * 获取新闻文章详情
+     *
      * @param aid 文章aid  此处baseurl可能不同，需要特殊处理
-     *          1：aid 以 cmpp 开头则调用 getNewsArticleWithCmpp
+     *            1：aid 以 cmpp 开头则调用 getNewsArticleWithCmpp
      * @return
      */
-    public Observable<NewsArticleBean> getNewsArticle(String aid){
-        if (aid.startsWith("sub")){
+    public Observable<NewsArticleBean> getNewsArticle(String aid) {
+        if (aid.startsWith("sub")) {
             return mService.getNewsArticleWithSub(aid);
-        }else {
-            return mService.getNewsArticleWithCmpp(Constants.sGetNewsArticleCmppApi + Constants.sGetNewsArticleDocCmppApi,aid);
+        } else {
+            return mService.getNewsArticleWithCmpp(Constants.sGetNewsArticleCmppApi + Constants.sGetNewsArticleDocCmppApi, aid);
         }
     }
 
@@ -80,7 +76,7 @@ public class NewsApi {
      *
      * @return
      */
-    public Observable<List<VideoChannelBean>> getVideoChannel(){
+    public Observable<List<VideoChannelBean>> getVideoChannel() {
         return mService.getVideoChannel(1);
     }
 
@@ -92,7 +88,7 @@ public class NewsApi {
      * @param typeid
      * @return
      */
-    public Observable<List<VideoDetailBean>> getVideoDetail(int page, String listtype, String typeid){
-        return mService.getVideoDetail(page,listtype,typeid);
+    public Observable<List<VideoDetailBean>> getVideoDetail(int page, String listtype, String typeid) {
+        return mService.getVideoDetail(page, listtype, typeid);
     }
 }

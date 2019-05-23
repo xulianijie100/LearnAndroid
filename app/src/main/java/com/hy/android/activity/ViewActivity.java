@@ -6,16 +6,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import butterknife.BindView;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseActivity;
+
 import com.hy.android.R;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.bean.PieData;
 import com.hy.android.widget.CanvasView;
 import com.hy.android.widget.PathView;
 import com.hy.android.widget.PieView;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
 
 public class ViewActivity extends BaseActivity {
 
@@ -33,11 +34,6 @@ public class ViewActivity extends BaseActivity {
     @Override
     public int getContentLayout() {
         return R.layout.activity_view;
-    }
-
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
     }
 
     @Override

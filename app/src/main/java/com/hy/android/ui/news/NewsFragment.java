@@ -11,8 +11,6 @@ import com.hy.android.adapter.ChannelPagerAdapter;
 import com.hy.android.base.BaseFragment;
 import com.hy.android.base.SupportFragment;
 import com.hy.android.bean.Channel;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.component.DaggerHttpComponent;
 import com.hy.android.database.ChannelDao;
 import com.hy.android.event.NewChannelEvent;
 import com.hy.android.event.SelectChannelEvent;
@@ -62,13 +60,6 @@ public class NewsFragment extends BaseFragment<NewsPresenter> implements NewsCon
         return R.layout.fragment_news_new;
     }
 
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-        DaggerHttpComponent.builder()
-                .applicationComponent(appComponent)
-                .build()
-                .inject(this);
-    }
 
     @Override
     public void bindView(View view, Bundle savedInstanceState) {

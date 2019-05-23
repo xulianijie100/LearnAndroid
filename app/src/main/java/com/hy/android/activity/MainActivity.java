@@ -13,16 +13,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-
 import android.view.View;
-import butterknife.BindView;
-import com.hy.android.component.ApplicationComponent;
-import com.hy.android.base.BaseActivity;
+
 import com.hy.android.R;
+import com.hy.android.base.BaseActivity;
 import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
 import com.hy.android.knowledge.MyActivity;
 import com.hy.android.ui.NewsActivity;
+
+import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -47,11 +47,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public int getContentLayout() {
         return R.layout.activity_main;
-    }
-
-    @Override
-    public void initInjector(ApplicationComponent appComponent) {
-
     }
 
     @Override
@@ -115,7 +110,7 @@ public class MainActivity extends BaseActivity {
                         Log.e(TAG, "onNavigationItemSelected: 1111");
                         break;
                     case R.id.nav_about:
-                        startActivity(new Intent(MainActivity.this,MyActivity.class));
+                        startActivity(new Intent(MainActivity.this, MyActivity.class));
                         break;
                     case R.id.nav_news:
                         startActivity(new Intent(MainActivity.this, NewsActivity.class));
