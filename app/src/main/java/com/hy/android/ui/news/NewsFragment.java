@@ -16,6 +16,7 @@ import com.hy.android.event.NewChannelEvent;
 import com.hy.android.event.SelectChannelEvent;
 import com.hy.android.ui.news.contract.NewsContract;
 import com.hy.android.ui.news.presenter.NewsPresenter;
+import com.hy.android.widget.ChannelDialogFragment;
 import com.hy.android.widget.CustomViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class NewsFragment extends BaseFragment<NewsPresenter> implements NewsContract.View {
+public class NewsFragment extends BaseFragment implements NewsContract.View {
 
     private static final String TAG = "NewsFragment";
 
@@ -48,6 +49,8 @@ public class NewsFragment extends BaseFragment<NewsPresenter> implements NewsCon
     private int selectedIndex;
     private String selectedChannel;
 
+    private NewsPresenter mPresenter;
+
     public static SupportFragment newInstance() {
         Bundle args = new Bundle();
         NewsFragment fragment = new NewsFragment();
@@ -64,6 +67,9 @@ public class NewsFragment extends BaseFragment<NewsPresenter> implements NewsCon
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
+        mPresenter=new NewsPresenter();
+        mPresenter.attachView(this);
+
         mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -175,13 +181,14 @@ public class NewsFragment extends BaseFragment<NewsPresenter> implements NewsCon
 
     @OnClick(R.id.iv_edit)
     public void onViewClicked() {
-//        ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(mSelectedDatas, mUnSelectedDatas);
-//        dialogFragment.show(getChildFragmentManager(), "CHANNEL");
+        ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(mSelectedDatas, mUnSelectedDatas);
+        dialogFragment.show(getChildFragmentManager(), "CHANNEL");
     }
 
     @Override
     public void onDestroyView() {
         EventBus.getDefault().unregister(this);
+        mPresenter.detachView();
         super.onDestroyView();
     }
 }

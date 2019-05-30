@@ -16,9 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class NewsPresenter extends BasePresenter<NewsContract.View> implements NewsContract.Presenter {
-    public NewsPresenter() {
-    }
-
     @Override
     public void getChannel() {
         List<Channel> myChannels = new ArrayList<>();

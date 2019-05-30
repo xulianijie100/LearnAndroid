@@ -33,9 +33,6 @@ public class AnimationActivity extends BaseActivity {
     @Override
     public void bindView(View view, Bundle savedInstanceState) {
         img_01 = findViewById(R.id.img_01);
-        img_01.setImageResource(R.drawable.anim1);
-        AnimationDrawable anim = (AnimationDrawable) img_01.getDrawable();  //逐帧动画
-        anim.start();
 
         testViewAnimation();
         testPropertyAnimation();

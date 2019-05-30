@@ -20,14 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment<T1 extends BaseContract.BasePresenter> extends SupportFragment implements IBase, BaseContract.BaseView {
+public abstract class BaseFragment extends SupportFragment implements IBase, BaseContract.BaseView {
 
     protected Context mContext;
     protected View mRootView;
     protected Dialog mLoadingDialog = null;
     Unbinder unbinder;
-
-    protected T1 mPresenter;
 
     @Nullable
     @BindView(R.id.SimpleMultiStateView)
@@ -59,7 +57,6 @@ public abstract class BaseFragment<T1 extends BaseContract.BasePresenter> extend
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        attachView();
         bindView(view, savedInstanceState);
         initStateView();
     }
@@ -81,11 +78,6 @@ public abstract class BaseFragment<T1 extends BaseContract.BasePresenter> extend
         return mRootView;
     }
 
-    private void attachView() {
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
-        }
-    }
 
     @Override
     public void onRetry() {
@@ -169,8 +161,5 @@ public abstract class BaseFragment<T1 extends BaseContract.BasePresenter> extend
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        if (mPresenter != null) {
-            mPresenter.detachView();
-        }
     }
 }

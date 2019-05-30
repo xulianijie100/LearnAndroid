@@ -21,6 +21,7 @@ import com.hy.android.bean.HomeData;
 import com.hy.android.bean.HomeDataList;
 import com.hy.android.net.BaseObserver;
 import com.hy.android.net.RetrofitHelper;
+import com.hy.android.utils.Constants;
 import com.hy.android.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -110,7 +111,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getBanner() {
-        RetrofitHelper.getInstance().getApiService().getBannerData()
+        RetrofitHelper.getInstance().getApiService(Constants.ANDROID_URL).getBannerData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BaseResponse<List<BannerData>>>() {
@@ -133,7 +134,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getHomeList(final int page) {
-        RetrofitHelper.getInstance().getApiService().getHomeList(page)
+        RetrofitHelper.getInstance().getApiService(Constants.ANDROID_URL).getHomeList(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BaseResponse<HomeDataList>>() {

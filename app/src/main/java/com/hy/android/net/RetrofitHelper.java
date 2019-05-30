@@ -21,9 +21,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     private ApiService apiService;
-    public static final String BASE_URL = "http://www.wanandroid.com/";
     private static final int DEFAULT_TIMEOUT = 20;
     private static RetrofitHelper instance = null;
+
+    private Retrofit.Builder builder;
 
     public static RetrofitHelper getInstance() {
         if (instance == null) {
@@ -37,18 +38,9 @@ public class RetrofitHelper {
     }
 
     private RetrofitHelper() {
-        init();
+        builder = new Retrofit.Builder();
     }
 
-    private void init() {
-        Retrofit mRetrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(getClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-        apiService = mRetrofit.create(ApiService.class);
-    }
 
     private OkHttpClient getClient() {
         String PATH_DATA = BaseApplication.getInstance().getCacheDir().getAbsolutePath() + File.separator + "data";
@@ -105,7 +97,13 @@ public class RetrofitHelper {
         return cacheInterceptor;
     }
 
-    public ApiService getApiService() {
+    public ApiService getApiService(String url) {
+        builder.baseUrl(url)
+                .client(getClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        apiService = builder.build().create(ApiService.class);
         return apiService;
     }
 }
