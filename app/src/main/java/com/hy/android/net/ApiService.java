@@ -9,6 +9,8 @@ import com.hy.android.bean.NewsDetail;
 import com.hy.android.bean.NewsImagesBean;
 import com.hy.android.bean.VideoChannelBean;
 import com.hy.android.bean.VideoDetailBean;
+import com.hy.android.mvp.entity.BannerEntity;
+import com.hy.android.mvp.entity.HomeEntity;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public interface ApiService {
 
-    String HOST = "http://www.wanandroid.com/";
+    String HOST = "http://www.wanandroid.com";
 
     /**
      * 广告栏
@@ -31,7 +33,6 @@ public interface ApiService {
     @GET("banner/json")
     Observable<BaseResponse<List<BannerData>>> getBannerData();
 
-
     /**
      * http://www.wanandroid.com/article/list/0/json
      *
@@ -39,6 +40,13 @@ public interface ApiService {
      */
     @GET("/article/list/{page}/json")
     Observable<BaseResponse<HomeDataList>> getHomeList(@Path("page") int page);
+
+
+    @GET("banner/json")
+    Observable<BannerEntity> getBannerList();
+
+    @GET("article/list/{page}/json")
+    Observable<HomeEntity> getHomePageList(@Path("page") int page);
 
 
     /**

@@ -3,6 +3,7 @@ package com.hy.android.net;
 import com.hy.android.base.BaseApplication;
 import com.hy.android.net.cookies.CookiesManager;
 import com.hy.android.utils.CommonUtils;
+import com.hy.android.utils.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -32,7 +34,6 @@ public class RetrofitHelper {
                 if (instance == null)
                     instance = new RetrofitHelper();
             }
-
         }
         return instance;
     }
@@ -52,6 +53,8 @@ public class RetrofitHelper {
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         builder.addNetworkInterceptor(getInterceptor());
         builder.addInterceptor(getInterceptor());
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(loggingInterceptor);
         builder.cache(cache);
         //设置超时
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
@@ -106,4 +109,13 @@ public class RetrofitHelper {
         apiService = builder.build().create(ApiService.class);
         return apiService;
     }
+
+    private HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        @Override
+        public void log(String message) {
+            Logger.d("data ==", message);
+        }
+    });
+
+
 }

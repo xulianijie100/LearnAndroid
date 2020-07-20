@@ -2,6 +2,7 @@ package com.hy.android.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.net.ConnectivityManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -16,11 +17,6 @@ import com.hy.android.R;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-/**
- * @author quchao
- * @date 2017/11/27
- */
 
 public class CommonUtils {
 
@@ -116,5 +112,19 @@ public class CommonUtils {
     public static <T> T cast(Object object) {
         return (T) object;
     }
+
+
+    /**
+     * 判断当前应用是否是debug状态
+     */
+    public static boolean isApkInDebug(Context context) {
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }

@@ -12,10 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.github.florent37.viewanimator.AnimationListener;
-import com.github.florent37.viewanimator.ViewAnimator;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -284,19 +280,6 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
             mTvToast.setText("将为你减少此类内容");
         }
         mRlTopToast.setVisibility(View.VISIBLE);
-        ViewAnimator.animate(mRlTopToast)
-                .newsPaper()
-                .duration(1000)
-                .start()
-                .onStop(new AnimationListener.Stop() {
-                    @Override
-                    public void onStop() {
-                        ViewAnimator.animate(mRlTopToast)
-                                .bounceOut()
-                                .duration(1000)
-                                .start();
-                    }
-                });
     }
 
     private void bannerToRead(NewsDetail.ItemBean itemBean) {

@@ -20,6 +20,7 @@ import com.hy.android.base.BaseActivity;
 import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
 import com.hy.android.knowledge.MyActivity;
+import com.hy.android.mvp.home.HomePageFragment;
 import com.hy.android.ui.NewsActivity;
 
 import butterknife.BindView;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bottomNavigation)
     BottomNavigationView bottomNavigation;
 
-    private HomeFragment homeFragment;
+    private HomePageFragment homeFragment;
     private TypeFragment typeFragment;
     private Fragment[] fragments;
     private int lastShowFragment = 0;
@@ -59,7 +60,7 @@ public class MainActivity extends BaseActivity {
 
     private void initFragments() {
 
-        homeFragment = new HomeFragment();
+        homeFragment = new HomePageFragment();
         typeFragment = new TypeFragment();
         fragments = new Fragment[]{homeFragment, typeFragment};
         lastShowFragment = 0;
