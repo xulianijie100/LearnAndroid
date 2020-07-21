@@ -24,7 +24,7 @@ public class RetrofitHelper {
 
     private ApiService apiService;
     private static final int DEFAULT_TIMEOUT = 20;
-    private static RetrofitHelper instance = null;
+    private volatile static RetrofitHelper instance = null;
 
     private Retrofit.Builder builder;
 
