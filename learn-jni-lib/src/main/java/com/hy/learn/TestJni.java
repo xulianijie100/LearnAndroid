@@ -27,6 +27,7 @@ public class TestJni {
 
     public static native String stringFromJNI();
 
+    //jni访问java类构造器返回对象
     public native User invokeUserConstructor();
 
 }
