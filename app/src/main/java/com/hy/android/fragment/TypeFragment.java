@@ -10,14 +10,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hy.android.R;
 import com.hy.android.activity.AnimationActivity;
 import com.hy.android.activity.AsyncActivity;
-import com.hy.android.activity.SortingActivity;
 import com.hy.android.activity.TestFunActivity;
+import com.hy.android.activity.TestJniActivity;
 import com.hy.android.activity.VideoActivity;
 import com.hy.android.activity.ViewActivity;
 import com.hy.android.adapter.FuncAdapter;
 import com.hy.android.base.BaseFragment;
-import com.hy.android.utils.Logger;
-import com.hy.learn.TestJni;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public class TypeFragment extends BaseFragment {
         list.add("自定义View");
         list.add("View 动画");
         list.add("Java 开发模式");
-        list.add("JNI Test");
+        list.add("jni test");
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new FuncAdapter(R.layout.func_list_item, list);
         recyclerView.setAdapter(mAdapter);
@@ -72,8 +70,7 @@ public class TypeFragment extends BaseFragment {
                         startActivity(new Intent(getActivity(), TestFunActivity.class));
                         break;
                     case 5:
-                        startActivity(new Intent(getActivity(), SortingActivity.class));
-                        Logger.e("----TestJni--------",TestJni.stringFromJNI());
+                        startActivity(new Intent(getActivity(), TestJniActivity.class));
                         break;
                     default:
                         break;

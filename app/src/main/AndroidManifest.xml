@@ -50,8 +50,8 @@
             android:name=".activity.TestFunActivity"
             android:configChanges="orientation" />
         <activity
-                android:name=".activity.SortingActivity"
-                android:configChanges="orientation" />
+            android:name=".activity.TestJniActivity"
+            android:configChanges="orientation" />
         <activity
                 android:name=".ui.NewsActivity"
                 android:configChanges="orientation" />

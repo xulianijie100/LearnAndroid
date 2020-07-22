@@ -20,12 +20,13 @@ public class TestJni {
      */
 
     private static final String TAG = "TestJni";
+
     static {
         System.loadLibrary("native-lib");
     }
 
     public static native String stringFromJNI();
 
-
+    public native User invokeUserConstructor();
 
 }
