@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 # 搜索当前目录下的所有.cpp文件
-aux_source_directory(./src/main/cpp dir_cpp)
+aux_source_directory(src/main/cpp dir_cpp)
 
 message(${CMAKE_ANDROID_ARCH_ABI})
 message(${CMAKE_SOURCE_DIR})
@@ -27,7 +27,7 @@ add_library( # 生成库的名字
 # 静态库在程序编译时会被连接到目标代码中，程序运行时将不再需要该静态库。
 # add_library(native-static-lib STATIC native-static-lib.cpp)
 
-set(lib_src_dir  src/main/jniLibs/armeabi)
+set(lib_src_dir  ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi)
 
 # 添加其他预构建的库
 add_library(avcodec-lib SHARED IMPORTED)

@@ -20,7 +20,7 @@ public class UserBean {
 
     public static void plusFun(int x,int y){
         int sum=x+y;
-        Log.d("静态方法--",String.valueOf(sum));
+        Log.d("static function --",String.valueOf(sum));
     }
 
     public void getUser(String name,int age,String tel){
