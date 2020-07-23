@@ -24,5 +24,19 @@
             tools:text="test" />
 
     </android.support.design.widget.AppBarLayout>
+    
+    <Button
+        android:id="@+id/btn_h264"
+        android:layout_width="match_parent"
+        android:text="h264 decoder"
+        android:layout_margin="30dp"
+        android:layout_height="60dp"/>
+
+    <Button
+        android:id="@+id/btn_aac"
+        android:layout_width="match_parent"
+        android:text="aac decoder"
+        android:layout_margin="30dp"
+        android:layout_height="60dp"/>
 
 </LinearLayout>
