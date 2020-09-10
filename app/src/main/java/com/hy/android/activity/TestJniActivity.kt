@@ -54,7 +54,7 @@ class TestJniActivity : AppCompatActivity(), View.OnClickListener {
         })
 
         val user = TestJni.callConstructor()
-        Logger.d("访问构造器  ---- ", user.name + " : " + user.age)
+        Logger.d("call constructor ---- ", user.name + " : " + user.age)
 
 
         btn_h264.setOnClickListener(this)

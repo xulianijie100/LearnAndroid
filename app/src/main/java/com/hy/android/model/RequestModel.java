@@ -10,7 +10,7 @@ import okhttp3.RequestBody;
 import okhttp3.internal.Util;
 import okhttp3.internal.http.HttpMethod;
 
-public final class Request1 {
+public final class RequestModel {
 
     final HttpUrl url;
     final String method;
@@ -20,7 +20,7 @@ public final class Request1 {
     private volatile CacheControl cacheControl;
 
 
-    Request1(Builder builder) {
+    RequestModel(Builder builder) {
         this.url = builder.url;
         this.method = builder.method;
         this.headers = builder.headers.build();
@@ -81,7 +81,7 @@ public final class Request1 {
             this.headers = new Headers.Builder();
         }
 
-        Builder(Request1 request) {
+        Builder(RequestModel request) {
             this.url = request.url;
             this.method = request.method;
             this.body = request.body;
@@ -196,12 +196,12 @@ public final class Request1 {
          * Request 对象创建器，想得到一个Request 对象必须使用build 方法，
          * 在方法中增加对Builder参数的验证，并以异常的形式告诉给开发人员。
          */
-        public Request1 build() {
+        public RequestModel build() {
             /**
              * 比如下面判断如果 url 是null的话就会抛出异常
              */
             if (url == null) throw new IllegalStateException("url == null");
-            return new Request1(this);
+            return new RequestModel(this);
         }
     }
 
