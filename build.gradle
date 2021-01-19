@@ -3,7 +3,7 @@ buildscript {
 
     ext.support_version = "26.1.0"
     ext.rxjavaVersion = '2.1.5'
-    ext.rxandroidVersion = '2.0.1'
+    ext.rxandroidVersion = '2.1.1'
     ext.glideVersion = '4.0.0'
     ext.retrofitVersion = '2.3.0'
     ext.butterknifeVersion = '8.8.1'

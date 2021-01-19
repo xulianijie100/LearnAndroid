@@ -120,12 +120,12 @@ class HomePageFragment : BaseFragment(), HomeContract.View {
 
     override fun onStop() {
         super.onStop()
-        mBanner?.let { mBanner.stopAutoPlay() }
+        mBanner.let { mBanner.stopAutoPlay() }
     }
 
     override fun onResume() {
         super.onResume()
-        mBanner?.let { mBanner.startAutoPlay() }
+        mBanner.let { mBanner.startAutoPlay() }
 
     }
 

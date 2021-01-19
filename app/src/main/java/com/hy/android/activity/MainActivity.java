@@ -17,7 +17,6 @@ import android.view.View;
 
 import com.hy.android.R;
 import com.hy.android.base.BaseActivity;
-import com.hy.android.fragment.HomeFragment;
 import com.hy.android.fragment.TypeFragment;
 import com.hy.android.knowledge.MyActivity;
 import com.hy.android.mvp.home.HomePageFragment;
@@ -40,8 +39,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bottomNavigation)
     BottomNavigationView bottomNavigation;
 
-    private HomePageFragment homeFragment;
-    private TypeFragment typeFragment;
     private Fragment[] fragments;
     private int lastShowFragment = 0;
 
@@ -60,8 +57,8 @@ public class MainActivity extends BaseActivity {
 
     private void initFragments() {
 
-        homeFragment = new HomePageFragment();
-        typeFragment = new TypeFragment();
+        HomePageFragment homeFragment = new HomePageFragment();
+        TypeFragment typeFragment = new TypeFragment();
         fragments = new Fragment[]{homeFragment, typeFragment};
         lastShowFragment = 0;
         getSupportFragmentManager()
@@ -108,7 +105,7 @@ public class MainActivity extends BaseActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_like:
-                        Log.e(TAG, "onNavigationItemSelected: 1111");
+                        Log.e(TAG, "onNavigationItemSelected");
                         break;
                     case R.id.nav_about:
                         startActivity(new Intent(MainActivity.this, MyActivity.class));
@@ -152,10 +149,5 @@ public class MainActivity extends BaseActivity {
         }
 
         transaction.show(fragments[index]).commitAllowingStateLoss();
-    }
-
-    @Override
-    public void onRetry() {
-
     }
 }

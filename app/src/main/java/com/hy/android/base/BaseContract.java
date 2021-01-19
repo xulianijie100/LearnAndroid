@@ -26,9 +26,6 @@ public interface BaseContract {
         //显示当前网络不可用
         void showNoNet();
 
-        //重试
-        void onRetry();
-
         /**
          * 绑定生命周期
          *

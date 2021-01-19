@@ -22,7 +22,6 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
                             mView?.setBanner(bean)
                         }
                     }
-
                     override fun onFail(e: Throwable) {
                         Log.e(tag, e.message)
                     }
@@ -39,12 +38,9 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
                             mView?.setHomeList(bean)
                         }
                     }
-
                     override fun onFail(e: Throwable) {
                         Log.e(tag, e.message)
                     }
                 })
     }
-
-
 }
